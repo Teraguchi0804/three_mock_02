@@ -6,8 +6,6 @@
  * Author:
  */
 
-// window.THREE = require('three');
-
 'use strict';
 
 export default class Camera {
