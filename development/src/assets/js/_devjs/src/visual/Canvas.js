@@ -108,8 +108,8 @@ export default class Canvas extends Entry{
 	 */
 	_createObject(){
 
-    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-    var cubeMaterial = new THREE.MeshBasicMaterial({
+    let cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+    let cubeMaterial = new THREE.MeshBasicMaterial({
       color: 0x000000,
       wireframe: true
     });
@@ -149,9 +149,9 @@ export default class Canvas extends Entry{
 	_orbitControls(){
 		this.controls = new THREE.OrbitControls(this.camera);
 		this.controls.autoRotate = true;
-		var clock = new THREE.Clock();
+		let clock = new THREE.Clock();
 
-		var delta = clock.getDelta();
+		let delta = clock.getDelta();
 		this.controls.update(delta);
   }
 
