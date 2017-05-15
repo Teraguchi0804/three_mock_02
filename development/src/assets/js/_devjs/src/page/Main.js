@@ -14,12 +14,12 @@ export default class Main {
 
   constructor() {
 
-    this.onImmediate();
+    this.setup();
     this.setEvents();
 
   }
 
-  onImmediate() {
+  setup() {
 
   }
 

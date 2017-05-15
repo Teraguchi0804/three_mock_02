@@ -16,12 +16,12 @@ export default class DisplayTop {
 
   constructor(){
 
-    this.onImmediate();
+    this.setup();
     this.setEvents();
 
   }
 
-  onImmediate() {
+  setup() {
 
     // アニメーションループスタート
     // gb.in.up.loop();

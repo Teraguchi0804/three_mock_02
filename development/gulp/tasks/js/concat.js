@@ -16,14 +16,16 @@ gulp.task('concatJSLibs', ()=>{
                 // PATH.dev.devjs + 'libs/hashchangeEvent.js',
                 
                 PATH.dev.devjs + 'libs/TweenMax.min.js',
-                PATH.dev.devjs + 'libs/DrawSVGPlugin.min.js',
-                PATH.dev.devjs + 'libs/snap.svg.min.js',
+                // PATH.dev.devjs + 'libs/DrawSVGPlugin.min.js',
+                // PATH.dev.devjs + 'libs/snap.svg.min.js',
 
                 PATH.dev.devjs + 'libs/pixi.min.js',
                 PATH.dev.devjs + 'libs/minMatrix.js',
                 PATH.dev.devjs + 'libs/three.min.js',
                 PATH.dev.devjs + 'libs/Stats.js',
                 PATH.dev.devjs + 'libs/dat.gui.min.js',
+
+                PATH.dev.devjs + 'libs/ua-parser.min.js'
               ]
 
     gulp.src(src)

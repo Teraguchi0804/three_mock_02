@@ -8,6 +8,7 @@
 
 import Conf from '../Core/Conf';
 import Util from '../mylibs/Util';
+import Utils from '../utils/Utils';
 import Func from '../mylibs/Func';
 
 'use strict';
@@ -31,6 +32,16 @@ export default class Common {
     gb.in.conf = new Conf();
     gb.in.u = new Util();
     gb.in.f = new Func();
+
+    gb.in.ut = new Utils();
+
+    // gb.in.ut.checkEnvironment();
+
+    // let render = () => {
+    //   requestAnimationFrame(render);
+    // }
+    //
+    // render();
 
   }
 

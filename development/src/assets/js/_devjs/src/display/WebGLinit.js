@@ -16,12 +16,12 @@ export default class WebGLinit {
   	this.create_program = this._create_program.bind(this);
   	this.create_vbo = this._create_vbo.bind(this);
 
-    this.onImmediate();
+    this.setup();
     this.setEvents();
 
   }
 
-  onImmediate() {
+  setup() {
 
     // ループスタート
     gb.in.up.loop();
