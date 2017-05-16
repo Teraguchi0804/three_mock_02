@@ -42,6 +42,31 @@ export default class Utils {
      * ua
      */
     this.checkEnvironment = new checkEnvironment();
+    if(this.checkEnvironment.isIE()){
+      window.console.log('IEです');
+    }else {
+      window.console.log('IEじゃないです');
+    }
+
+    if(this.checkEnvironment.isChrome()){
+      window.console.log('Chromeです');
+    }else {
+      window.console.log('Chromeじゃないです');
+    }
+
+    if(this.checkEnvironment.isMobile()){
+      window.console.log('モバイルです');
+    }else {
+      window.console.log('モバイルじゃないです');
+    }
+    
+    // window.console.log(this.checkEnvironment.all());
+
+    // let name = this.checkEnvironment;
+    // window.console.log(name);
+
+    // let log = this.checkEnvironment.device_name();
+    // window.console.log(log);
 
     /**
      * img

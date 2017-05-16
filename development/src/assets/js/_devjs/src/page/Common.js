@@ -35,14 +35,6 @@ export default class Common {
 
     gb.in.ut = new Utils();
 
-    // gb.in.ut.checkEnvironment();
-
-    // let render = () => {
-    //   requestAnimationFrame(render);
-    // }
-    //
-    // render();
-
   }
 
   onReady() {

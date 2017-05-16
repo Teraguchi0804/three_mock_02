@@ -13,6 +13,7 @@ gulp.task('concatJSLibs', ()=>{
                 PATH.dev.devjs + 'libs/jquery.js',
                 PATH.dev.devjs + 'libs/jquery.pjax.js',
                 PATH.dev.devjs + 'libs/jquery.mousewheel.js',
+                PATH.dev.devjs + 'libs/lodash.js',
                 // PATH.dev.devjs + 'libs/hashchangeEvent.js',
                 
                 PATH.dev.devjs + 'libs/TweenMax.min.js',
