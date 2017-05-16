@@ -3,7 +3,7 @@
  * Project:
  * File: Scene
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 

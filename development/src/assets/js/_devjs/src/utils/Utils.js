@@ -3,7 +3,7 @@
  * Project:
  * File: Utils
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 /**
@@ -42,43 +42,6 @@ export default class Utils {
      * ua
      */
     this.checkClient = new checkClient();
-    // if(this.checkClient.isIE()){
-    //   window.console.log('IEです');
-    // }else {
-    //   window.console.log('IEじゃないです');
-    // }
-    //
-    // if(this.checkClient.isFirefox()){
-    //   window.console.log('Firefoxです');
-    // }else {
-    //   window.console.log('Firefoxじゃないです');
-    // }
-    //
-    // if(this.checkClient.isChrome()){
-    //   window.console.log('Chromeです');
-    // }else {
-    //   window.console.log('Chromeじゃないです');
-    // }
-    //
-    // if(this.checkClient.isSafari()){
-    //   window.console.log('Safariです');
-    // }else {
-    //   window.console.log('Safariじゃないです');
-    // }
-    //
-    // if(this.checkClient.isMobile()){
-    //   window.console.log('モバイルです');
-    // }else {
-    //   window.console.log('モバイルじゃないです');
-    // }
-    //
-    // if(this.checkClient.isTablet()){
-    //   window.console.log('Tabletです');
-    // }else {
-    //   window.console.log('Tabletじゃないです');
-    // }
-    //
-    // window.console.log(this.checkClient.device_name());
 
 
     /**
