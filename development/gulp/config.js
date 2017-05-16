@@ -14,6 +14,7 @@ var DEVPATH = {
   scss  : PROJECT_ROOT + DEV + 'assets/css/_scss/',
   js    : PROJECT_ROOT + DEV + 'assets/js/',
   devjs    : PROJECT_ROOT + DEV + 'assets/js/_devjs/',
+  glsl    : PROJECT_ROOT + DEV + 'assets/glsl/',
   resource : PROJECT_ROOT + DEV + 'assets/resource/',
 };
 

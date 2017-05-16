@@ -7,7 +7,10 @@
  */
 
 import Entry from '../Core/Entry';
+import TitleObject from "./TitleObject";
 // import Camera from './Utils/Camera.js';
+
+const glslify = require('glslify');
 
 'use strict';
 
@@ -42,6 +45,8 @@ export default class Canvas extends Entry{
    * 初期化
    */
   init(){
+
+    const titleObject = new TitleObject();
 
     this.createCamera();
 		this.createScene();
