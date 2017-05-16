@@ -13,7 +13,7 @@ import requestAnimationFrame from './animation/requestAnimationFrame';
 import cancelAnimationFrame from './animation/cancelAnimationFrame';
 
 import Array from './array/Array';
-import checkEnvironment from "./ua/checkEnvironment";
+import checkClient from "./ua/checkClient";
 
 import preloadImg from './img/preloadImg';
 import setUpBtnTwitter from './sns/setUpBtnTwitter';
@@ -41,32 +41,45 @@ export default class Utils {
     /**
      * ua
      */
-    this.checkEnvironment = new checkEnvironment();
-    if(this.checkEnvironment.isIE()){
-      window.console.log('IEです');
-    }else {
-      window.console.log('IEじゃないです');
-    }
+    this.checkClient = new checkClient();
+    // if(this.checkClient.isIE()){
+    //   window.console.log('IEです');
+    // }else {
+    //   window.console.log('IEじゃないです');
+    // }
+    //
+    // if(this.checkClient.isFirefox()){
+    //   window.console.log('Firefoxです');
+    // }else {
+    //   window.console.log('Firefoxじゃないです');
+    // }
+    //
+    // if(this.checkClient.isChrome()){
+    //   window.console.log('Chromeです');
+    // }else {
+    //   window.console.log('Chromeじゃないです');
+    // }
+    //
+    // if(this.checkClient.isSafari()){
+    //   window.console.log('Safariです');
+    // }else {
+    //   window.console.log('Safariじゃないです');
+    // }
+    //
+    // if(this.checkClient.isMobile()){
+    //   window.console.log('モバイルです');
+    // }else {
+    //   window.console.log('モバイルじゃないです');
+    // }
+    //
+    // if(this.checkClient.isTablet()){
+    //   window.console.log('Tabletです');
+    // }else {
+    //   window.console.log('Tabletじゃないです');
+    // }
+    //
+    // window.console.log(this.checkClient.device_name());
 
-    if(this.checkEnvironment.isChrome()){
-      window.console.log('Chromeです');
-    }else {
-      window.console.log('Chromeじゃないです');
-    }
-
-    if(this.checkEnvironment.isMobile()){
-      window.console.log('モバイルです');
-    }else {
-      window.console.log('モバイルじゃないです');
-    }
-    
-    // window.console.log(this.checkEnvironment.all());
-
-    // let name = this.checkEnvironment;
-    // window.console.log(name);
-
-    // let log = this.checkEnvironment.device_name();
-    // window.console.log(log);
 
     /**
      * img
