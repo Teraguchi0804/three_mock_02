@@ -30,11 +30,9 @@ export default class DisplayTop {
 
   onLoad() {
 
-    gb.in.canvas = new Canvas({
-      output: document.getElementById('webgl-output')
-    });
+    gb.in.canvas = new Canvas();
 
-    // gb.in.canvas.init();
+    gb.in.canvas.init();
 
 
   }

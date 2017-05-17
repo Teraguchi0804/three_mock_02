@@ -62,20 +62,20 @@
 //        };
     </script>
 
-    <script id="vs" type="x-shader/x-vertex">
-attribute vec3 position;
-uniform   mat4 mvpMatrix;
+    <!--<script id="vs" type="x-shader/x-vertex">-->
+<!--attribute vec3 position;-->
+<!--uniform   mat4 mvpMatrix;-->
 
-void main(void){
-    gl_Position = mvpMatrix * vec4(position, 1.0);
-}
-        </script>
+<!--void main(void){-->
+    <!--gl_Position = mvpMatrix * vec4(position, 1.0);-->
+<!--}-->
+        <!--</script>-->
 
-    <script id="fs" type="x-shader/x-fragment">
-void main(void){
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-}
-        </script>
+    <!--<script id="fs" type="x-shader/x-fragment">-->
+<!--void main(void){-->
+    <!--gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);-->
+<!--}-->
+        <!--</script>-->
 
 </head>
 <body id="top" class="top" data-id="top">
@@ -93,7 +93,10 @@ void main(void){
         <p style="font-size: 40px;">開発環境テスト！！</p>
         <div class="section section01" data-id="top">
 
-  <div id="webgl-output"></div>
+  <!--<div id="webgl-output">-->
+  <div>
+    <canvas id="webgl-output" class="p-canvas-webgl"></canvas>
+  </div>
 
 </div>
 

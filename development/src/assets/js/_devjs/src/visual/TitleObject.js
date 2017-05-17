@@ -1,4 +1,4 @@
-const glslify = require('glslify');
+var glslify = require('glslify');
 
 export default class TitleObject {
   constructor() {
@@ -18,10 +18,11 @@ export default class TitleObject {
     };
     this.obj = null;
     this.isLoaded = false;
+    this.titrender = this._titrender.bind(this);
   }
   loadTexture(callback) {
     const loader = new THREE.TextureLoader();
-    loader.load('/sketch-threejs/img/index/tex_title.png', (texture) => {
+    loader.load('/assets/resource/img/tex_title.png', (texture) => {
       texture.magFilter = THREE.NearestFilter;
       texture.minFilter = THREE.NearestFilter;
       this.uniforms.texture.value = texture;
@@ -41,7 +42,8 @@ export default class TitleObject {
       })
     )
   }
-  render(time) {
+  // render(time) {
+  _titrender(time) {
     if (!this.isLoaded) return;
     this.uniforms.time.value += time;
   }

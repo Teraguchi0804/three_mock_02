@@ -16,13 +16,17 @@ const glslify = require('glslify');
 
 export default class Canvas extends Entry{
 
-  constructor(opts = {}) {
+  constructor() {
 
     super();
 
+    this.titleObject = new TitleObject();
+
+    this.canvas = document.getElementById('webgl-output');
+
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.output = opts.output || document.createElement('div');
+    // this.output = opts.output || document.createElement('div');
 
     this.camera = null;
     this.renderer = null;
@@ -35,6 +39,8 @@ export default class Canvas extends Entry{
     this.createObject = this._createObject.bind(this);
     this.orbitControls = this._orbitControls.bind(this);
 
+    this.render = this._render.bind(this);
+
     this.onResize = this._onResize.bind(this);
 
     this.Update = this._Update.bind(this);
@@ -46,7 +52,7 @@ export default class Canvas extends Entry{
    */
   init(){
 
-    const titleObject = new TitleObject();
+
 
     this.createCamera();
 		this.createScene();
@@ -54,9 +60,13 @@ export default class Canvas extends Entry{
 
 		this.orbitControls();
 
-		this.createObject();
+		// this.createObject();
 
     this.Update();
+
+    this.titleObject.loadTexture(() => {
+      this.scene.add(this.titleObject.obj);
+    });
 
     //リサイズイベント発火
     window.addEventListener('resize', () => {
@@ -71,9 +81,9 @@ export default class Canvas extends Entry{
   _createCamera(){
 
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
-    this.camera.position.x = -30;
-    this.camera.position.y = 40;
-    this.camera.position.z = 30;
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 800;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -85,17 +95,18 @@ export default class Canvas extends Entry{
   _createRenderer(){
 
 		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
+      // alpha              : false,
       antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false
+      // stencil            : false,
+      // depth              : true,
+      // premultipliedAlpha : false,
+      canvas: this.canvas
 		});
 
     this.renderer.setClearColor(0xffffff);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
-    this.output.appendChild(this.renderer.domElement);
+    // this.output.appendChild(this.renderer.domElement);
 
   }
 
@@ -129,9 +140,22 @@ export default class Canvas extends Entry{
 	}
 
   /**
-   *　更新
+   * レンダラー
+   * @private
+   */
+	_render() {
+    let clock = new THREE.Clock();
+    let time = clock.getDelta();
+
+    this.titleObject.titrender(time);
+  }
+
+  /**
+   * 更新
+   * @private
    */
   _Update() {
+    this.render();
     requestAnimationFrame( () => {
       this.Update();
     });
