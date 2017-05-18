@@ -7,8 +7,8 @@ varying vec2 vUv;
 
 const float interval = 3.0;
 
-#pragma glslify: snoise3 = require(glsl-noise/simplex/3d)
-#pragma glslify: ease = require(glsl-easings/cubic-out)
+#pragma glslify: snoise3 = require('glsl-noise/simplex/3d');
+#pragma glslify: ease = require('glsl-easings/cubic-out');
 
 void main() {
   float now = ease(min(time / interval, 1.0));
