@@ -7,10 +7,8 @@
  */
 
 import Entry from '../Core/Entry';
-import TitleObject from "./TitleObject";
+// import TitleObject from "./TitleObject";
 // import Camera from './Utils/Camera';
-
-const glslify = require('glslify');
 
 'use strict';
 
@@ -20,7 +18,13 @@ export default class Canvas extends Entry{
 
     super();
 
-    this.titleObject = new TitleObject();
+    this.uniforms = {
+      u_time: { type: "f", value: 1.0 },
+      u_resolution: { type: "v2", value: new THREE.Vector2() },
+      u_mouse: { type: "v2", value: new THREE.Vector2() }
+    };
+
+    // this.titleObject = new TitleObject();
 
     this.canvas = document.getElementById('webgl-output');
 
@@ -38,6 +42,8 @@ export default class Canvas extends Entry{
     this.createScene = this._createScene.bind(this);
     this.createObject = this._createObject.bind(this);
     this.orbitControls = this._orbitControls.bind(this);
+
+    this.planeObject = this._planeObject.bind(this);
 
     this.render = this._render.bind(this);
 
@@ -62,11 +68,13 @@ export default class Canvas extends Entry{
 
 		// this.createObject();
 
+    this.planeObject();
+
     this.Update();
 
-    this.titleObject.loadTexture(() => {
-      this.scene.add(this.titleObject.obj);
-    });
+    // this.titleObject.loadTexture(() => {
+    //   this.scene.add(this.titleObject.obj);
+    // });
 
     //リサイズイベント発火
     window.addEventListener('resize', () => {
@@ -83,7 +91,7 @@ export default class Canvas extends Entry{
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 800;
+    this.camera.position.z = 100;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -103,7 +111,8 @@ export default class Canvas extends Entry{
       canvas: this.canvas
 		});
 
-    this.renderer.setClearColor(0xffffff);
+    // this.renderer.setClearColor(0xffffff);
+    this.renderer.setClearColor(0x000000);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
     // this.output.appendChild(this.renderer.domElement);
@@ -119,14 +128,15 @@ export default class Canvas extends Entry{
 
   }
 
-	/**
-	 *　Object作成
-	 */
+  /**
+   * Object作成
+   * @private
+   */
 	_createObject(){
 
     let cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
     let cubeMaterial = new THREE.MeshBasicMaterial({
-      color: 0x000000,
+      color: 0xffffff,
       wireframe: true
     });
 
@@ -139,6 +149,19 @@ export default class Canvas extends Entry{
 
 	}
 
+	_planeObject(){
+    this.plane = new THREE.Mesh(
+        // new THREE.PlaneBufferGeometry(256, 64, 40, 10),
+        new THREE.PlaneBufferGeometry(5, 20, 32),
+        new THREE.ShaderMaterial({
+          uniforms: this.uniforms,
+          vertexShader: require('../../../../glsl/index/test.vert'),
+          fragmentShader: require('../../../../glsl/index/test.frag'),
+        })
+    )
+    this.scene.add(this.plane);
+  }
+
   /**
    * レンダラー
    * @private
@@ -147,7 +170,7 @@ export default class Canvas extends Entry{
     let clock = new THREE.Clock();
     let time = clock.getDelta();
 
-    this.titleObject.titrender(time);
+    // this.titleObject.titrender(time);
   }
 
   /**
@@ -160,6 +183,7 @@ export default class Canvas extends Entry{
       this.Update();
     });
     // this.controls.update();
+    this.uniforms.u_time.value += 0.05;
     this.renderer.render(this.scene, this.camera);
   }
 

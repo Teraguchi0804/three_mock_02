@@ -3,7 +3,7 @@
  * Project:
  * File: Display
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 // import WebGLinit from './WebGLinit.js';
