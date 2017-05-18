@@ -8,7 +8,7 @@
 
 import Entry from '../Core/Entry';
 import TitleObject from "./TitleObject";
-// import Camera from './Utils/Camera.js';
+// import Camera from './Utils/Camera';
 
 const glslify = require('glslify');
 
@@ -95,11 +95,11 @@ export default class Canvas extends Entry{
   _createRenderer(){
 
 		this.renderer = new THREE.WebGLRenderer({
-      // alpha              : false,
+      alpha              : false,
       antialias          : false,
-      // stencil            : false,
-      // depth              : true,
-      // premultipliedAlpha : false,
+      stencil            : false,
+      depth              : true,
+      premultipliedAlpha : false,
       canvas: this.canvas
 		});
 
