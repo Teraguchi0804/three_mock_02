@@ -7,8 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
-// import TitleObject from "./TitleObject";
-// import Camera from './Utils/Camera';
+import Plane from './Plane';
 
 'use strict';
 
@@ -18,38 +17,24 @@ export default class TextureBg extends Entry{
 
     super();
 
-    this.uniforms = {
-      u_time: { type: "f", value: 1.0 },
-      u_resolution: { type: "v2", value: new THREE.Vector2() },
-      u_mouse: { type: "v2", value: new THREE.Vector2() }
-    };
-
-    // this.titleObject = new TitleObject();
-
     this.canvas = document.getElementById('webgl-output');
 
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-    // this.output = opts.output || document.createElement('div');
+    this.width = document.body.clientWidth;
+    this.height = document.body.clientHeight;
 
     this.camera = null;
     this.renderer = null;
     this.scene = null;
-		this.cube = null;
 
     this.createCamera = this._createCamera.bind(this);
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
-    this.createObject = this._createObject.bind(this);
-    this.orbitControls = this._orbitControls.bind(this);
-
-    this.planeObject = this._planeObject.bind(this);
-
-    this.render = this._render.bind(this);
 
     this.onResize = this._onResize.bind(this);
+		this.Update = this._Update.bind(this);
+		this.loadTexture = this._loadTexture.bind(this);
 
-    this.Update = this._Update.bind(this);
+		this.plane = new Plane();
 
   }
 
@@ -58,30 +43,15 @@ export default class TextureBg extends Entry{
    */
   init(){
 
-
-
     this.createCamera();
 		this.createScene();
     this.createRenderer();
 
-		this.orbitControls();
+		this.Update();
 
-		// this.createObject();
-
-    this.planeObject();
-
-    this.Update();
-
-    // this.titleObject.loadTexture(() => {
-    //   this.scene.add(this.titleObject.obj);
-    // });
-
-    //リサイズイベント発火
-    window.addEventListener('resize', () => {
-      this.onResize();
-    }, false);
-
+		this.loadTexture();
   }
+
 
   /**
    * カメラ作成
@@ -111,11 +81,9 @@ export default class TextureBg extends Entry{
       canvas: this.canvas
 		});
 
-    // this.renderer.setClearColor(0xffffff);
-    this.renderer.setClearColor(0x000000);
+    this.renderer.setClearColor(0xffffff, 0.0);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
-    // this.output.appendChild(this.renderer.domElement);
 
   }
 
@@ -129,84 +97,49 @@ export default class TextureBg extends Entry{
   }
 
   /**
-   * Object作成
+   * 画像をロード
    * @private
    */
-	_createObject(){
+	_loadTexture(){
 
-    let cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-    let cubeMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true
-    });
-
-    this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    this.cube.position.x = 3;
-    this.cube.position.y = 3;
-    this.cube.position.z = 3;
-
-    this.scene.add(this.cube);
+		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
+			this.scene.add(this.plane.mesh);
+			window.addEventListener('resize', () => {
+				this.onResize();
+			}, false);
+			this.onResize();
+			this.Update();
+		});
 
 	}
-
-	_planeObject(){
-    this.plane = new THREE.Mesh(
-        // new THREE.PlaneBufferGeometry(256, 64, 40, 10),
-        new THREE.PlaneBufferGeometry(5, 20, 32),
-        new THREE.ShaderMaterial({
-          uniforms: this.uniforms,
-          vertexShader: require('../../../../glsl/index/test.vert'),
-          fragmentShader: require('../../../../glsl/index/test.frag'),
-        })
-    )
-    this.scene.add(this.plane);
-  }
-
-  /**
-   * レンダラー
-   * @private
-   */
-	_render() {
-    let clock = new THREE.Clock();
-    let time = clock.getDelta();
-
-    // this.titleObject.titrender(time);
-  }
 
   /**
    * 更新
    * @private
    */
   _Update() {
-    this.render();
+
+		this.renderer.render(this.scene, this.camera);
+
     requestAnimationFrame( () => {
       this.Update();
     });
-    // this.controls.update();
-    this.uniforms.u_time.value += 0.05;
-    this.renderer.render(this.scene, this.camera);
+
   }
 
   /**
-   *　画面リサイズ
+   *　画面リサイズイベント
    */
   _onResize() {
+		this.canvas.width = document.body.clientWidth;
+		this.canvas.height = document.body.clientHeight;
+		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-	/**
-   * カメラコントロール
-	 */
-	_orbitControls(){
-		this.controls = new THREE.OrbitControls(this.camera);
-		this.controls.autoRotate = true;
-		let clock = new THREE.Clock();
-
-		let delta = clock.getDelta();
-		this.controls.update(delta);
-  }
 
 	setEvents() {
 

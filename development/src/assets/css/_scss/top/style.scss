@@ -4,6 +4,8 @@
 @import "../init/import";
 @import "../init/reset"; // リセットCSS、フォントサイズ
 
+//@import "../init/";
+
 // parts
 //@import "../parts/_base/__base.scss"; //__baseを先に読み込む
 //@import "../parts/**/_*.scss";
@@ -18,4 +20,20 @@
     //top: 0;
   }
 
+}
+
+html{
+  height:100%;
+}
+
+#textureBg{
+  min-height: 100%;
+  overflow: hidden;
+  margin: 0;
+  background-color: #1f1f1f;
+
+  canvas {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+  }
 }

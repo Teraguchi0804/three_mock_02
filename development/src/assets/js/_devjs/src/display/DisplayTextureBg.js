@@ -6,9 +6,7 @@
  * Author: Teraguchi
  */
 
-// import WebGLinit from './WebGLinit.js';
-
-import Canvas from "../visual/Canvas";
+import TextureBg from "../visual/TextureBg";
 
 'use strict';
 
@@ -30,9 +28,9 @@ export default class DisplayTop {
 
   onLoad() {
 
-    gb.in.canvas = new Canvas();
+    gb.in.textureBg = new TextureBg();
 
-    gb.in.canvas.init();
+    gb.in.textureBg.init();
 
 
   }
