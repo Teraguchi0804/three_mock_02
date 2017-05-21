@@ -7,6 +7,8 @@
  */
 
 import DisplayTop from '../Display/DisplayTop';
+import DisplayTextureBg from '../Display/DisplayTextureBg';
+import DisplayTextureMovie from '../Display/DisplayTextureMovie';
 
 'use strict';
 
@@ -38,6 +40,18 @@ export default class Main {
         new DisplayTop();
 
         break;
+
+			case 'textureBg':
+
+				new DisplayTextureBg();
+
+				break;
+
+			case 'textureMovie':
+
+				new DisplayTextureMovie();
+
+				break;
 
     }
 

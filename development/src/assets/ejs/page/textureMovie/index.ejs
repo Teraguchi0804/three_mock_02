@@ -1,7 +1,7 @@
 <%
 // variable
-var ejsRoot = '../';
-var page = 'top';
+var ejsRoot = '../../';
+var page = 'textureMovie';
 %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,12 +13,12 @@ var page = 'top';
     <script type='text/javascript' src='/assets/js/main.js'></script>
 
 </head>
-<body id="<%- page %>" class="top" data-id="top">
+<body id="<%- page %>" class="<%- page %>" data-id="<%- page %>">
 
 <div id="wrapper">
     <div id="inner">
 
-        <%- include('./top/_section01', {data:data,page:page}); %>
+        <%- include('./_section01', {data:data,page:page}); %>
 
     </div>
 </div>

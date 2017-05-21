@@ -1,201 +1,89 @@
 {
   "description": "desctiption",
-  "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
+  "keyword": "",
   "ogpImgPath": "",
   "top": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
+      "description": "",
       "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
           "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
+          "tit": "",
           "type": "website", 
           "url": ""
       }, 
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
+      "keyword": "",
       "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
+          "tit": "",
           "url": ""
       }, 
-      "title": "",
+      "title": "top",
       "tw": {
           "card": "summary_large_image", 
           "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
           "siteName": "",
           "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
+          "url": ""
       }
   },
-  "movie": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
+  "textureBg": {
+      "description": "",
       "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "type": "website",
-          "url": ""
-      },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
-      "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "url": ""
-      },
-      "title": "",
-      "tw": {
-          "card": "summary_large_image",
-          "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
           "siteName": "",
           "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
+          "type": "website",
+          "url": ""
+      },
+      "keyword": "",
+      "line": {
+          "des": "",
+          "img": "",
+          "tit": "",
+          "url": ""
+      },
+      "title": "textureBg",
+      "tw": {
+          "card": "summary_large_image",
+          "creator": "",
+          "des": "",
+          "img": "",
+          "siteName": "",
+          "tit": "",
+          "url": ""
       }
   }, 
-  "interview": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
+  "textureMovie": {
+      "description": "",
       "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "type": "website",
-          "url": ""
-      },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
-      "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "url": ""
-      },
-      "title": "",
-      "tw": {
-          "card": "summary_large_image",
-          "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
           "siteName": "",
           "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
-      }
-  }, 
-  "interviewDetail01": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
-      "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
           "type": "website",
           "url": ""
       },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
+      "keyword": "",
       "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
+          "tit": "",
           "url": ""
       },
-      "title": "",
+      "title": "textureMovie",
       "tw": {
           "card": "summary_large_image",
           "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
+          "des": "",
           "img": "",
           "siteName": "",
           "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
-      }
-  }, 
-  "interviewDetail02": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
-      "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "type": "website",
           "url": ""
-      },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
-      "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "url": ""
-      },
-      "title": "",
-      "tw": {
-          "card": "summary_large_image",
-          "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
-      }
-  }, 
-  "interviewDetail03": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
-      "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "type": "website",
-          "url": ""
-      },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
-      "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "url": ""
-      },
-      "title": "",
-      "tw": {
-          "card": "summary_large_image",
-          "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
-      }
-  }, 
-  "history": {
-      "description": "ダミーダミーダミーダミーダミーダミーダミー",
-      "fb": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "type": "website",
-          "url": ""
-      },
-      "keyword": "ダミーダミーダミーダミーダミーダミーダミー",
-      "line": {
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "tit": "ダミーダミーダミーダミーダミーダミーダミー",
-          "url": ""
-      },
-      "title": "",
-      "tw": {
-          "card": "summary_large_image",
-          "creator": "",
-          "des": "ダミーダミーダミーダミーダミーダミーダミー",
-          "img": "",
-          "siteName": "",
-          "tit": "",
-          "url": "ダミーダミーダミーダミーダミーダミーダミー"
       }
   }
 }
