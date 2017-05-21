@@ -3,7 +3,7 @@
  * Project:
  * File: TextureBg
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
