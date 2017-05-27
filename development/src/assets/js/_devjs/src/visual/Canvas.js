@@ -65,7 +65,6 @@ export default class Canvas extends Entry{
     this.createRenderer();
 
 		this.orbitControls();
-
 		// this.createObject();
 
     this.planeObject();
