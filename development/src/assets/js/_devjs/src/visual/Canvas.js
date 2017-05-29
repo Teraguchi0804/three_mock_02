@@ -3,7 +3,7 @@
  * Project:
  * File: Canvas
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
@@ -57,8 +57,6 @@ export default class Canvas extends Entry{
    * 初期化
    */
   init(){
-
-
 
     this.createCamera();
 		this.createScene();
