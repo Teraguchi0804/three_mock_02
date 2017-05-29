@@ -24,6 +24,8 @@ export default class SceneManger extends Entry{
 
     this.renderer = THREE.Renderer; // Renderer
 
+    this.addScene = this._addScene.bind(this);
+
 		this.onResize = this._onResize.bind(this);
 		this.checkNum = this._checkNum.bind(this);
 		this.onKeyDown = this._onKeyDown.bind(this);
@@ -114,83 +116,12 @@ export default class SceneManger extends Entry{
    * 管理したいシーンを格納する関数
 	 * @param scene
 	 */
-	addScene(scene)
+	_addScene(scene)
 	{
 
 		this.scenes.push(scene);
 
 	}
-
-  /**
-   * カメラ作成
-   */
-  _createCamera(){
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 100;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
-
-  }
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer(){
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
-		});
-
-    // this.renderer.setClearColor(0xffffff);
-    this.renderer.setClearColor(0x000000);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-    // this.output.appendChild(this.renderer.domElement);
-
-  }
-
-  /**
-   *　シーン作成
-   */
-  _createScene(){
-
-		this.scene = new THREE.Scene();
-
-  }
-
-
-  /**
-   * レンダラー
-   * @private
-   */
-	_render() {
-    let clock = new THREE.Clock();
-    let time = clock.getDelta();
-
-    // this.titleObject.titrender(time);
-  }
-
-  /**
-   * 更新
-   * @private
-   */
-  _Update() {
-    this.render();
-    requestAnimationFrame( () => {
-      this.Update();
-    });
-    // this.controls.update();
-    this.uniforms.u_time.value += 0.05;
-    this.renderer.render(this.scene, this.camera);
-  }
 
   /**
    *　ウィンドウの幅が変わったときの処理
@@ -218,7 +149,7 @@ export default class SceneManger extends Entry{
    * ←→キーでシーン番号を足し引き
 	 * @private
 	 */
-	_onKeyDown(e:KeyboardEvent){
+	_onKeyDown(KeyboardEvent){
 		console.log(e);
 		// console.log(this.NUM);
 		if(e.key == "ArrowRight")
