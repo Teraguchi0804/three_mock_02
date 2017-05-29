@@ -6,8 +6,6 @@
  * Author: Teraguchi
  */
 
-// import WebGLinit from './WebGLinit.js';
-
 import Canvas from "../visual/Canvas";
 
 'use strict';
@@ -39,7 +37,6 @@ export default class DisplayTop {
 
   static run() {
 
-		// window.console.log('static_Run');
 
   }
 
