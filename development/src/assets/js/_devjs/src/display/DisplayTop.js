@@ -6,9 +6,11 @@
  * Author: Teraguchi
  */
 
+import SceneManger from "../visual/SceneManger";
+
 // import WebGLinit from './WebGLinit.js';
 
-import Canvas from "../visual/Canvas";
+// import Canvas from "../visual/Canvas";
 
 'use strict';
 
@@ -30,9 +32,10 @@ export default class DisplayTop {
 
   onLoad() {
 
-    gb.in.canvas = new Canvas();
+    gb.in.sceneManger = new SceneManger();
 
-    gb.in.canvas.init();
+    // gb.in.canvas = new Canvas();
+    // gb.in.canvas.init();
 
 
   }
