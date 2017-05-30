@@ -22,6 +22,8 @@ export default class SceneManger extends Entry{
 		this.NUM = 0; // 現在のシーンの番号
 		this.scenes = []; // シーンを格納する配列
 
+		this.canvasWrap = $("#canvasWrap");
+
     this.renderer = THREE.Renderer; // Renderer
 
     this.addScene = this._addScene.bind(this);
@@ -30,6 +32,10 @@ export default class SceneManger extends Entry{
 		this.checkNum = this._checkNum.bind(this);
 		this.onKeyDown = this._onKeyDown.bind(this);
 		this.draw = this._draw.bind(this);
+
+
+		document.addEventListener( 'resize', this.onResize, false );
+		document.addEventListener("keydown", this.onKeyDown, true);
 
     window.console.log(this.scenes);
     // this.uniforms = {
@@ -66,7 +72,7 @@ export default class SceneManger extends Entry{
     // this.Update = this._Update.bind(this);
 
 
-		// this.init(); // 初期化処理後、イベント登録
+		this.init(); // 初期化処理後、イベント登録
 
   }
 
@@ -88,6 +94,7 @@ export default class SceneManger extends Entry{
 		this.renderer.shadowMap.type = THREE.PCFShadowMap;
 		this.renderer.domElement.id = "main";
 		document.body.appendChild(this.renderer.domElement);
+		// this.canvasWrap.appendChild(this.renderer.domElement);
 
 		//
     // this.createCamera();
@@ -149,23 +156,24 @@ export default class SceneManger extends Entry{
    * ←→キーでシーン番号を足し引き
 	 * @private
 	 */
-	_onKeyDown(KeyboardEvent){
-		console.log(e);
-		// console.log(this.NUM);
-		if(e.key == "ArrowRight")
-		{
-			this.NUM++;
-			this.checkNum();
+	_onKeyDown(){
+		document.onkeydown = (e) => {
+			console.log(e);
+			switch (e.key) {
+				case "ArrowRight":
+					this.NUM++;
+					this.checkNum();
+					break;
+				case "ArrowRight":
+					this.NUM--;
+					this.checkNum();
+					break;
+				default:
+			}
+			console.log(this.NUM);
 		}
-		if( e.key == "ArrowLeft")
-		{
+	}
 
-			this.NUM--;
-			this.checkNum();
-		}
-
-		console.log(this.NUM);
-  }
 
 	/**
    * 最終的な描写処理と、アニメーション関数をワンフレームごとに実行
