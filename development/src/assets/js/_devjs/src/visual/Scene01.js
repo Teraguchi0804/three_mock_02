@@ -1,18 +1,16 @@
 /**
  * fileOverview:
  * Project:
- * File: Canvas
- * Date:
- * Author:
+ * File: Scene01
+ * Date: 17/05/31
+ * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
-// import TitleObject from "./TitleObject";
-// import Camera from './Utils/Camera';
 
 'use strict';
 
-export default class Canvas extends Entry{
+export default class Scene01 extends Entry{
 
   constructor() {
 
