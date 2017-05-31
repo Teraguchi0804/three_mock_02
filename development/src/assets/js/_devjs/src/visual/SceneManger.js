@@ -10,9 +10,6 @@ import Entry from '../Core/Entry';
 
 'use strict';
 
-
-
-
 export default class SceneManger extends Entry{
 
   constructor() {
@@ -22,9 +19,8 @@ export default class SceneManger extends Entry{
 		this.NUM = 0; // 現在のシーンの番号
 		this.scenes = []; // シーンを格納する配列
 
-		this.canvasWrap = $("#canvasWrap");
-
-    this.renderer = THREE.Renderer; // Renderer
+		this.canvas = null;
+    this.renderer = null; // Renderer
 
     this.addScene = this._addScene.bind(this);
 
@@ -32,45 +28,6 @@ export default class SceneManger extends Entry{
 		this.checkNum = this._checkNum.bind(this);
 		this.onKeyDown = this._onKeyDown.bind(this);
 		this.draw = this._draw.bind(this);
-
-
-		document.addEventListener( 'resize', this.onResize, false );
-		document.addEventListener("keydown", this.onKeyDown, true);
-
-    window.console.log(this.scenes);
-    // this.uniforms = {
-    //   u_time: { type: "f", value: 1.0 },
-    //   u_resolution: { type: "v2", value: new THREE.Vector2() },
-    //   u_mouse: { type: "v2", value: new THREE.Vector2() }
-    // };
-		//
-    // // this.titleObject = new TitleObject();
-		//
-    // this.canvas = document.getElementById('webgl-output');
-		//
-    // this.width = window.innerWidth;
-    // this.height = window.innerHeight;
-    // // this.output = opts.output || document.createElement('div');
-		//
-    // this.camera = null;
-    // this.renderer = null;
-    // this.scene = null;
-		// this.cube = null;
-		//
-    // this.createCamera = this._createCamera.bind(this);
-    // this.createRenderer = this._createRenderer.bind(this);
-    // this.createScene = this._createScene.bind(this);
-    // this.createObject = this._createObject.bind(this);
-    // this.orbitControls = this._orbitControls.bind(this);
-		//
-    // this.planeObject = this._planeObject.bind(this);
-		//
-    // this.render = this._render.bind(this);
-		//
-
-		//
-    // this.Update = this._Update.bind(this);
-
 
 		this.init(); // 初期化処理後、イベント登録
 
@@ -81,11 +38,12 @@ export default class SceneManger extends Entry{
    */
   init(){
 
-		document.addEventListener( 'resize', this.onWindowResize, false );
+    window.addEventListener('resize', this.onResize, false );
+
+		document.addEventListener("resize", this.onResize, false );
 		document.addEventListener("keydown", this.onKeyDown, true);
 
-		// Rendererを作る
-
+		// Renderer作成
 		this.renderer = new THREE.WebGLRenderer({antialias: true});
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -93,29 +51,8 @@ export default class SceneManger extends Entry{
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFShadowMap;
 		this.renderer.domElement.id = "main";
-		document.body.appendChild(this.renderer.domElement);
-		// this.canvasWrap.appendChild(this.renderer.domElement);
-
-		//
-    // this.createCamera();
-		// this.createScene();
-    // this.createRenderer();
-		//
-		// this.orbitControls();
-		// this.createObject();
-		//
-    // this.planeObject();
-		//
-    // this.Update();
-
-    // this.titleObject.loadTexture(() => {
-    //   this.scene.add(this.titleObject.obj);
-    // });
-
-    //リサイズイベント発火
-    // window.addEventListener('resize', () => {
-    //   this.onResize();
-    // }, false);
+    this.canvas = this.renderer.domElement;
+		document.body.appendChild(this.canvas);
 
   }
 
@@ -123,8 +60,7 @@ export default class SceneManger extends Entry{
    * 管理したいシーンを格納する関数
 	 * @param scene
 	 */
-	_addScene(scene)
-	{
+	_addScene(scene) {
 
 		this.scenes.push(scene);
 
@@ -135,6 +71,12 @@ export default class SceneManger extends Entry{
    * @private
    */
   _onResize() {
+
+  	// 表示しているシーンごとにカメラのリサイズを走らせる
+    this.scenes[this.NUM].camera.aspect = window.innerWidth / window.innerHeight;
+    this.scenes[this.NUM].camera.updateProjectionMatrix();
+
+    // rendererは全てのシーンで共通
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
@@ -158,7 +100,7 @@ export default class SceneManger extends Entry{
 	 */
 	_onKeyDown(){
 		document.onkeydown = (e) => {
-			console.log(e);
+			// console.log(e);
 			switch (e.key) {
 				case "ArrowRight":
 					this.NUM++;
@@ -170,7 +112,7 @@ export default class SceneManger extends Entry{
 					break;
 				default:
 			}
-			console.log(this.NUM);
+			window.console.log('現在のシーン番号は',this.NUM);
 		}
 	}
 

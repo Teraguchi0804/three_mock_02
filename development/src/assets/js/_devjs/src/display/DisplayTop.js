@@ -7,6 +7,8 @@
  */
 
 import SceneManger from "../visual/SceneManger";
+import Scene01 from "../visual/Scene01";
+import Scene02 from "../visual/Scene02";
 
 // import WebGLinit from './WebGLinit.js';
 
@@ -33,6 +35,14 @@ export default class DisplayTop {
   onLoad() {
 
     gb.in.sceneManger = new SceneManger();
+
+    gb.in.sceneBoxA = new Scene01();
+    gb.in.sceneBoxB = new Scene02();
+
+    gb.in.sceneManger.addScene(gb.in.sceneBoxA);
+    gb.in.sceneManger.addScene(gb.in.sceneBoxB);
+
+    gb.in.sceneManger.draw();
 
     // gb.in.canvas = new Canvas();
     // gb.in.canvas.init();

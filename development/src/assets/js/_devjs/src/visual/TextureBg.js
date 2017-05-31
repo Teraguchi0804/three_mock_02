@@ -132,7 +132,7 @@ export default class TextureBg extends Entry{
    */
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
-		this.canvas.height = document.body.clientHeight;
+    this.canvas.height = document.body.clientHeight;
 		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
