@@ -23,7 +23,6 @@ export default class Scene01 extends Entry{
 
     this.createScene = this._createScene.bind(this);
     this.update = this._update.bind(this);
-    this.onResize = this._onResize.bind(this);
 
     this.createScene();
 
