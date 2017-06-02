@@ -18,6 +18,7 @@ export default class SceneManger extends Entry{
 
 		this.NUM = 0; // 現在のシーンの番号
 		this.scenes = []; // シーンを格納する配列
+    this.fadeInOutTimer = -1; //
 
 		this.canvas = null;
     this.renderer = null; // Renderer
@@ -27,7 +28,11 @@ export default class SceneManger extends Entry{
 		this.onResize = this._onResize.bind(this);
 		this.checkNum = this._checkNum.bind(this);
 		this.onKeyDown = this._onKeyDown.bind(this);
+		this.fadeInOut = this._fadeInOut.bind(this);
 		this.draw = this._draw.bind(this);
+
+		this.keyname = null;
+
 
 		this.init(); // 初期化処理後、イベント登録
 
@@ -85,6 +90,7 @@ export default class SceneManger extends Entry{
 	 * @private
 	 */
 	_checkNum(){
+    window.console.log(this.keyname);
 		if(this.NUM <0) {
 			this.NUM = this.scenes.length-1;
 		}
@@ -101,19 +107,89 @@ export default class SceneManger extends Entry{
 	_onKeyDown(){
 		document.onkeydown = (e) => {
 			// console.log(e);
-			switch (e.key) {
-				case "ArrowRight":
-					this.NUM++;
-					this.checkNum();
-					break;
-				case "ArrowRight":
-					this.NUM--;
-					this.checkNum();
-					break;
-				default:
-			}
+      this.keyname = e.key;
+      // window.console.log(this.keyname);
+      // if(this.keyname == "ArrowRight") {
+      //   this.NUM++;
+      //   this.checkNum();
+      // }
+      // if(this.keyname == "ArrowLeft") {
+      //   this.NUM--;
+      //   this.checkNum();
+      // }
+      if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft")
+      {
+        // keyname = event.key;
+
+        this.fadeInOutTimer = 0;
+        //scenes[0].meshMaterial.color = 0xffffff*Math.random();
+      }
+			// switch (e.key) {
+			// 	case "ArrowRight":
+			// 		this.NUM++;
+			// 		this.checkNum();
+			// 		break;
+			// 	// case "ArrowRight":
+			// 	// 	this.NUM--;
+			// 	// 	this.checkNum();
+			// 	// 	break;
+       //  case "ArrowLeft":
+       //    this.NUM--;
+       //    this.checkNum();
+       //    break;
+			// 	default:
+			// }
 			window.console.log('現在のシーン番号は',this.NUM);
 		}
+	}
+
+  /**
+	 * シーンチェンジ時のレイヤー
+   * @private
+   */
+	_fadeInOut(){
+    if(this.fadeInOutTimer <= Math.PI*2){
+      this.fadeInOutTimer += 0.07;
+      //screen.style.opacity = Math.sin(fadeInOutTimer);
+      var op = Math.sin(this.fadeInOutTimer);
+
+      $("#fadeInOut")
+          .css({
+            opacity: op
+          });
+    } else {
+
+      this.fadeInOutTimer = -1;
+      op = 0.0;
+    }
+
+    if(op > 0.95 && op <= 1.0)
+    {
+      switch (this.keyname) {
+        case 'ArrowRight':
+          // console.log(this.scenes[this.NUM].END);
+          //scenes[NUM].endEnabled();
+          this.NUM++;
+          this.checkNum();
+          // alphaReset();
+          if(this.scenes.length == this.NUM){
+            this.NUM=0;
+          }
+          break;
+
+        case 'ArrowLeft':
+          // console.log(this.scenes[this.NUM].END);
+          // alphaReset();
+          //scenes[NUM].endEnabled();
+          this.NUM--;
+          this.checkNum();
+
+          if(this.NUM <0){
+            this.NUM = this.scenes.length-1;
+          }
+          break;
+      }
+    }
 	}
 
 
@@ -126,6 +202,11 @@ export default class SceneManger extends Entry{
 		this.scenes[this.NUM].update();
 		this.renderer.render(this.scenes[this.NUM].scene, this.scenes[this.NUM].camera);
 		requestAnimationFrame(this.draw.bind(this));
+
+    if(this.fadeInOutTimer >= 0)
+    {
+      this.fadeInOut();
+    }
 
 	}
 
