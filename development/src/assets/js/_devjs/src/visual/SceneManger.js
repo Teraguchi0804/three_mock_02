@@ -108,37 +108,14 @@ export default class SceneManger extends Entry{
 		document.onkeydown = (e) => {
 			// console.log(e);
       this.keyname = e.key;
-      // window.console.log(this.keyname);
-      // if(this.keyname == "ArrowRight") {
-      //   this.NUM++;
-      //   this.checkNum();
-      // }
-      // if(this.keyname == "ArrowLeft") {
-      //   this.NUM--;
-      //   this.checkNum();
-      // }
-      if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft")
-      {
+
+      if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft") {
         // keyname = event.key;
 
         this.fadeInOutTimer = 0;
         //scenes[0].meshMaterial.color = 0xffffff*Math.random();
       }
-			// switch (e.key) {
-			// 	case "ArrowRight":
-			// 		this.NUM++;
-			// 		this.checkNum();
-			// 		break;
-			// 	// case "ArrowRight":
-			// 	// 	this.NUM--;
-			// 	// 	this.checkNum();
-			// 	// 	break;
-       //  case "ArrowLeft":
-       //    this.NUM--;
-       //    this.checkNum();
-       //    break;
-			// 	default:
-			// }
+
 			window.console.log('現在のシーン番号は',this.NUM);
 		}
 	}
