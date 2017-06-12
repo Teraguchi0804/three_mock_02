@@ -70,13 +70,6 @@ export default class Scene01 extends Entry{
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
     this.camera.position.z = 1000;
 
-    // this.Box = new THREE.Mesh(
-    //     new THREE.BoxGeometry(50,50,50),
-    //     new THREE.MeshBasicMaterial(0xffffff)
-    // );
-
-    // this.scene.add(this.Box);
-
   }
 
 
@@ -106,8 +99,6 @@ export default class Scene01 extends Entry{
     // window.console.log('update01');
 
     this.render();
-    // this.timer += 0.1;
-    // this.Box.position.x = 50 * Math.sin(this.timer);
 
   }
 
