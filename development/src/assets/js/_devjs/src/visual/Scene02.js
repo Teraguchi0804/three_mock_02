@@ -21,12 +21,15 @@ export default class Scene02 extends Entry{
     this.Box = null;
     this.timer = 0;
 
-    this.audioCtx = null;
-    this.analyser = null;
-    this.waveData = null;
+    // this.audioCtx = null;
+    // this.analyser = null;
+    // this.waveData = null;
 
-    this.getByteFrequencyDataAverage = this._getByteFrequencyDataAverage.bind(this);
-    this.elVolume = document.getElementById('volume');
+    this.elVolume = null;
+    this.elVolumeVal = null;
+
+    // this.getByteFrequencyDataAverage = this._getByteFrequencyDataAverage.bind(this);
+    // this.elVolume = document.getElementById('volume');
 
     this.audioInit = this._audioInit.bind(this);
     this.audio = this._audio.bind(this);
@@ -40,36 +43,60 @@ export default class Scene02 extends Entry{
     this.createScene();
 
     this.audioInit();
-    this.audio();
+    
+    // this.audio();
+    //
+    // this.draw();
 
-    this.draw();
+    this.test();
 
+  }
+
+
+  test(){
+    'use strict';
+
+    var ctx, analyser, frequencies, getByteFrequencyDataAverage, elVolume, draw;
+
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    ctx = new AudioContext();
+
+    analyser = ctx.createAnalyser();
+    frequencies = new Uint8Array(analyser.frequencyBinCount);
+
+    this.audioInit();
+
+    getByteFrequencyDataAverage = function() {
+      analyser.getByteFrequencyData(frequencies);
+      return frequencies.reduce(function(previous, current) {
+            return previous + current;
+          }) / analyser.frequencyBinCount;
+    };
+
+    navigator.mediaDevices.getUserMedia({audio: true})
+        .then((stream) => {
+          window.hackForMozzila = stream;
+          ctx.createMediaStreamSource(stream)
+          // AnalyserNodeに接続
+              .connect(analyser);
+        })
+        .catch((err) => {
+          window.console.log(err.message);
+        });
+
+    // 音量を表示する要素
+    this.elVolume = document.getElementById('volume');
+    // 可能な限り高いフレームレートで音量を取得し、表示を更新する
+    draw = function() {
+      this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
+      this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
+
+      requestAnimationFrame(draw);
+    }.bind(this);
+    draw();
   }
 
 
-  /**
-   * シーンを作成。オブジェクトを格納
-   * @private
-   */
-  _createScene(){
-
-    this.scene = new THREE.Scene(); //シーン作成
-
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
-    this.camera.position.z = 1000;
-
-    this.geometry = new THREE.BoxGeometry(50,50,50);
-    this.material = new THREE.MeshBasicMaterial(0x888888);
-
-    this.Box = new THREE.Mesh(
-        this.geometry,
-        this.material
-    );
-
-    this.scene.add(this.Box);
-
-  }
-  
   _audioInit(){
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioCtx = new AudioContext();
@@ -96,6 +123,31 @@ export default class Scene02 extends Entry{
           return previous + current;
         }) / this.analyser.frequencyBinCount;
   }
+
+
+  /**
+   * シーンを作成。オブジェクトを格納
+   * @private
+   */
+  _createScene(){
+
+    this.scene = new THREE.Scene(); //シーン作成
+
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
+    this.camera.position.z = 1000;
+
+    this.geometry = new THREE.BoxGeometry(50,50,50);
+    this.material = new THREE.MeshBasicMaterial(0x888888);
+
+    this.Box = new THREE.Mesh(
+        this.geometry,
+        this.material
+    );
+
+    this.scene.add(this.Box);
+
+  }
+  
 
 
 
@@ -129,6 +181,8 @@ export default class Scene02 extends Entry{
    */
   _update(){
 
+    window.console.log(this.elVolumeVal);
+
     // this.waveData = new Float32Array(this.analyser.frequencyBinCount);
     // this.analyser.getFloatTimeDomainData(this.waveData);
 
@@ -139,8 +193,9 @@ export default class Scene02 extends Entry{
     //
     // this.posUpdate(this.waveData);
 
-    // this.timer += 0.1;
+    this.timer += 0.1;
     // this.Box.position.y = 50 * Math.sin(this.timer);
+    this.Box.position.y = this.elVolumeVal * Math.sin(this.timer);
 
   }
 
