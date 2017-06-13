@@ -7,6 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
+import audio from "./Utils/audio";
 
 'use strict';
 
@@ -21,50 +22,38 @@ export default class Scene02 extends Entry{
     this.Box = null;
     this.timer = 0;
 
-    // this.audioCtx = null;
-    // this.analyser = null;
-    // this.waveData = null;
-
     this.elVolume = null;
     this.elVolumeVal = null;
 
-    // this.getByteFrequencyDataAverage = this._getByteFrequencyDataAverage.bind(this);
-    // this.elVolume = document.getElementById('volume');
-
-    this.audioInit = this._audioInit.bind(this);
-    this.audio = this._audio.bind(this);
+    // this.audio = this._audio.bind(this);
 
     this.createScene = this._createScene.bind(this);
-    this.posUpdate = this._posUpdate.bind(this);
     this.update = this._update.bind(this);
-
-    this.draw = this._draw.bind(this);
 
     this.createScene();
 
-    this.audioInit();
-    
-    // this.audio();
+    this.audioInit = new audio();
     //
-    // this.draw();
+    // this.aaa = this.audioInit.execute();
+    // window.console.log(this.aaa);
+    
+    // this.aaa = this.audioInit.elVolumeVal();
+    // window.console.log(this.audioInit);
 
-    this.test();
+    // this.audioInit(); //audioInit実行
 
   }
 
 
-  test(){
-    'use strict';
+  audioInit(){
 
-    var ctx, analyser, frequencies, getByteFrequencyDataAverage, elVolume, draw;
+    let ctx, analyser, frequencies, getByteFrequencyDataAverage, execute;
 
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     ctx = new AudioContext();
 
     analyser = ctx.createAnalyser();
     frequencies = new Uint8Array(analyser.frequencyBinCount);
-
-    this.audioInit();
 
     getByteFrequencyDataAverage = function() {
       analyser.getByteFrequencyData(frequencies);
@@ -86,44 +75,18 @@ export default class Scene02 extends Entry{
 
     // 音量を表示する要素
     this.elVolume = document.getElementById('volume');
+
     // 可能な限り高いフレームレートで音量を取得し、表示を更新する
-    draw = function() {
+    execute = function() {
       this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
       this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
 
-      requestAnimationFrame(draw);
+      requestAnimationFrame(execute);
     }.bind(this);
-    draw();
+
+    //
+    execute();
   }
-
-
-  _audioInit(){
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    this.audioCtx = new AudioContext();
-    this.analyser = this.audioCtx.createAnalyser();
-    this.waveData = new Uint8Array(this.analyser.frequencyBinCount);
-  }
-
-  _audio(){
-    navigator.mediaDevices.getUserMedia({audio: true})
-        .then(function(stream) {
-          window.hackForMozzila = stream;
-          this.audioCtx.createMediaStreamSource(stream)
-          // AnalyserNodeに接続
-              .connect(this.analyser);
-        })
-        .catch(function(err) {
-          console.log(err.message);
-        });
-  }
-
-  _getByteFrequencyDataAverage(){
-    this.analyser.getByteFrequencyData(this.waveData);
-    return this.waveData.reduce(function(previous, current) {
-          return previous + current;
-        }) / this.analyser.frequencyBinCount;
-  }
-
 
   /**
    * シーンを作成。オブジェクトを格納
@@ -147,33 +110,7 @@ export default class Scene02 extends Entry{
     this.scene.add(this.Box);
 
   }
-  
 
-
-
-  _posUpdate(waveDate){
-
-    // this.Box.geometry.verticesNeedUpdate = true;
-    //
-    // for (var i = 0; i < 4; i++) {
-    //   // var vertex = this.Box.geometry.vertices[i];
-    //   this.Box.position.y = waveDate[i%waveDate.length]*100;
-    //
-    //   window.console.log('this.Box.position.y',this.Box.position.y);
-    // }
-
-    // this.Box.position.y = 50 * Math.sin(waveDate);
-    // this.Box.position.y = waveDate[waveDate.length]*100;
-    //
-    // window.console.log('this.Box.position.y',this.Box.position.y);
-
-  }
-
-  _draw() {
-    // this.elVolume.innerHTML = Math.floor(this.getByteFrequencyDataAverage());
-    // window.console.log('this.elVolume', this.getByteFrequencyDataAverage());
-    requestAnimationFrame(this.draw);
-  };
 
   /**
    * update関数
@@ -181,21 +118,11 @@ export default class Scene02 extends Entry{
    */
   _update(){
 
-    window.console.log(this.elVolumeVal);
-
-    // this.waveData = new Float32Array(this.analyser.frequencyBinCount);
-    // this.analyser.getFloatTimeDomainData(this.waveData);
-
-    // this.elVolume = Math.floor(this.getByteFrequencyDataAverage());
-    // this.elVolume.innerHTML = Math.floor(this.getByteFrequencyDataAverage());
-
-    // window.console.log(this.elVolume);
-    //
-    // this.posUpdate(this.waveData);
+    // requestAnimationFrame(this.audioInit.execute());
 
     this.timer += 0.1;
-    // this.Box.position.y = 50 * Math.sin(this.timer);
-    this.Box.position.y = this.elVolumeVal * Math.sin(this.timer);
+    this.Box.position.y = 50 * Math.sin(this.timer);
+    // this.Box.position.y = this.elVolumeVal * Math.sin(this.timer);
 
   }
 
