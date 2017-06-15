@@ -7,6 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
+import OverScene from "../visual/overScene";
 
 'use strict';
 
@@ -22,6 +23,14 @@ export default class SceneManger extends Entry{
 
 		this.canvas = null;
     this.renderer = null; // Renderer
+    this.renderer02 = null; // Renderer02
+
+    // this.$subWrap = $('#subWrap');
+
+    this.overscene = []; // overscene
+
+    this.overAlpha = 0;
+    this.mainOP = 1.0;
 
     this.addScene = this._addScene.bind(this);
 
@@ -30,6 +39,9 @@ export default class SceneManger extends Entry{
 		this.onKeyDown = this._onKeyDown.bind(this);
 		this.fadeInOut = this._fadeInOut.bind(this);
 		this.draw = this._draw.bind(this);
+
+
+		this.alphaReset = this._alphaReset.bind(this);
 
 		this.keyname = null;
 
@@ -48,6 +60,9 @@ export default class SceneManger extends Entry{
 		document.addEventListener("resize", this.onResize, false );
 		document.addEventListener("keydown", this.onKeyDown, true);
 
+    // this._Scene = new OverScene();
+    this.overscene.push(new OverScene());
+
 		// Renderer作成
 		this.renderer = new THREE.WebGLRenderer({antialias: true});
 		this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -58,6 +73,18 @@ export default class SceneManger extends Entry{
 		this.renderer.domElement.id = "main";
     this.canvas = this.renderer.domElement;
 		document.body.appendChild(this.canvas);
+
+    // Renderer02作成
+    this.renderer02 = new THREE.WebGLRenderer({antialias: true,alpha: true});
+    // this.renderer02.setPixelRatio( window.devicePixelRatio );
+    this.renderer02.setSize( window.innerWidth, window.innerHeight );
+    this.renderer02.sortObjects = false;
+    this.renderer02.shadowMap.enabled = true;
+    this.renderer02.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer02.domElement.id = "sub";
+    // this.renderer02.setClearColor( 0x000000, 0 );
+    this.canvas02 = this.renderer02.domElement;
+    document.body.appendChild(this.canvas02);
 
   }
 
@@ -83,6 +110,11 @@ export default class SceneManger extends Entry{
 
     // rendererは全てのシーンで共通
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    this.overscene[0].camera.aspect = window.innerWidth / window.innerHeight;
+    this.overscene[0].camera.updateProjectionMatrix();
+
+    this.renderer02.setSize(window.innerWidth, window.innerHeight);
   }
 
 	/**
@@ -116,6 +148,27 @@ export default class SceneManger extends Entry{
         //scenes[0].meshMaterial.color = 0xffffff*Math.random();
       }
 
+      if(this.keyname == "ArrowUp") {
+        window.console.log('Up');
+
+        this.overAlpha+=0.05;
+        if(this.overAlpha > 1){
+          this.overAlpha = 1.0;
+        }
+      }
+
+      if(this.keyname == "ArrowDown") {
+        window.console.log('Down');
+
+        this.overAlpha-=0.05;
+        if(this.overAlpha < 0){
+          this.overAlpha = 0.0;
+        }
+      }
+
+      window.console.log('this.overAlpha',this.overAlpha);
+      window.console.log($("#sub"));
+      $("#sub").css({ opacity: this.overAlpha });
 			window.console.log('現在のシーン番号は',this.NUM);
 		}
 	}
@@ -148,7 +201,7 @@ export default class SceneManger extends Entry{
           //scenes[NUM].endEnabled();
           this.NUM++;
           this.checkNum();
-          // alphaReset();
+          this.alphaReset();
           if(this.scenes.length == this.NUM){
             this.NUM=0;
           }
@@ -156,7 +209,7 @@ export default class SceneManger extends Entry{
 
         case 'ArrowLeft':
           // console.log(this.scenes[this.NUM].END);
-          // alphaReset();
+          this.alphaReset();
           //scenes[NUM].endEnabled();
           this.NUM--;
           this.checkNum();
@@ -169,15 +222,27 @@ export default class SceneManger extends Entry{
     }
 	}
 
+  _alphaReset() {
+    this.overAlpha = 0.0;
+    this.mainOP = 1.0;
+
+    $("#sub").css({opacity: this.overAlpha});
+  }
+
 
 	/**
    * 最終的な描写処理と、アニメーション関数をワンフレームごとに実行
 	 * @private
 	 */
 	_draw() {
-
+    
+    // window.console.log(this.overscene[0]);
+    
 		this.scenes[this.NUM].update();
+		// this.overscene[this.NUM].update();
+		this.overscene[0].update();
 		this.renderer.render(this.scenes[this.NUM].scene, this.scenes[this.NUM].camera);
+		this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
 		requestAnimationFrame(this.draw.bind(this));
 
     if(this.fadeInOutTimer >= 0)

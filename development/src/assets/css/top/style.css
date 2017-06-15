@@ -212,6 +212,11 @@ canvas
     height: 100%;
 }
 
+#sub
+{
+    opacity: .0;
+}
+
 #textureBg
 {
     overflow: hidden;

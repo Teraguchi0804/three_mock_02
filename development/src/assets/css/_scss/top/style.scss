@@ -30,6 +30,8 @@
       z-index: 999999;
     }
 
+
+
   }
 
 }
@@ -50,6 +52,10 @@ canvas {
   position: fixed;
   top: 0;
   left: 0;
+}
+
+#sub {
+  opacity: 0.0;
 }
 
 #textureBg{
