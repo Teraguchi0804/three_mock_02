@@ -1,94 +1,156 @@
-import normalizeVector2 from '../modules/common/normalizeVector2';
-import IndexScroller from '../modules/common/IndexScroller';
-import TitleObject from '../modules/index/TitleObject';
-import FrameObject from '../modules/index/FrameObject';
-import SkyOctahedron from '../modules/index/SkyOctahedron';
-import SkyOctahedronShell from '../modules/index/SkyOctahedronShell';
-import Ground from '../modules/index/Ground';
-import PostEffect from '../modules/index/PostEffect';
+    // once everything is loaded, we run our Three.js stuff.
+    $(function () {
 
-const debounce = require('js-util/debounce');
+        var stats = initStats();
 
-export default function() {
-  const indexScroller = new IndexScroller();
+        // create a scene, that will hold all our elements such as objects, cameras and lights.
+        var scene = new THREE.Scene();
 
-  const canvas = document.getElementById('canvas-webgl');
-  const renderer = new THREE.WebGLRenderer({
-    antialias: false,
-    canvas: canvas,
-  });
-  const renderBack = new THREE.WebGLRenderTarget(document.body.clientWidth, window.innerHeight);
-  const scene = new THREE.Scene();
-  const sceneBack = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const cameraBack = new THREE.PerspectiveCamera(45, document.body.clientWidth / window.innerHeight, 1, 10000);
-  const clock = new THREE.Clock();
+        // create a camera, which defines where we're looking at.
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  const titleObject = new TitleObject();
-  const frameObject = new FrameObject();
-  const skyOctahedron = new SkyOctahedron();
-  const skyOctahedronShell = new SkyOctahedronShell();
-  const ground = new Ground();
-  const postEffect = new PostEffect(renderBack.texture);
+        // create a render and set the size
+        var webGLRenderer = new THREE.WebGLRenderer();
+        webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
+        webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        webGLRenderer.shadowMapEnabled = true;
 
-  const elemIntro = document.getElementsByClassName('js-transition-intro');
 
-  const resizeWindow = () => {
-    canvas.width = document.body.clientWidth;
-    canvas.height = window.innerHeight;
-    cameraBack.aspect = document.body.clientWidth / window.innerHeight;
-    cameraBack.updateProjectionMatrix();
-    renderBack.setSize(document.body.clientWidth, window.innerHeight);
-    renderer.setSize(document.body.clientWidth, window.innerHeight);
-    postEffect.resize();
-  }
-  const render = () => {
-    const time = clock.getDelta();
-    titleObject.render(time);
-    skyOctahedron.render(time);
-    skyOctahedronShell.render(time);
-    ground.render(time);
-    renderer.render(sceneBack, cameraBack, renderBack);
-    postEffect.render(time);
-    renderer.render(scene, camera);
-  }
-  const renderLoop = () => {
-    render();
-    requestAnimationFrame(renderLoop);
-  }
-  const on = () => {
-    window.addEventListener('resize', debounce(() => {
-      resizeWindow();
-    }), 1000);
-  }
-  const transitionOnload = () => {
-    for (var i = 0; i < elemIntro.length; i++) {
-      const elm = elemIntro[i];
-      elm.classList.add('is-opened', 'is-animate');
-      elm.addEventListener('transitionend', () => {
-        elm.classList.remove('is-animate');
-      })
-    }
-  }
+        // position and point the camera to the center of the scene
+        camera.position.x = -30;
+        camera.position.y = 40;
+        camera.position.z = 50;
+        camera.lookAt(new THREE.Vector3(10, 0, 0));
 
-  const init = () => {
-    renderer.setSize(document.body.clientWidth, window.innerHeight);
-    renderer.setClearColor(0x111111, 1.0);
-    cameraBack.position.set(0, 0, 800);
-    cameraBack.lookAt(new THREE.Vector3());
+        // add the output of the renderer to the html element
+        $("#WebGL-output").append(webGLRenderer.domElement);
 
-    scene.add(postEffect.obj);
-    titleObject.loadTexture(() => {
-      sceneBack.add(titleObject.obj);
-      sceneBack.add(skyOctahedron.obj);
-      sceneBack.add(skyOctahedronShell.obj);
-      sceneBack.add(ground.obj);
-      transitionOnload();
+        // call the render function
+        var step = 0;
+
+        var knot;
+
+        // setup the control gui
+        var controls = new function () {
+            // we need the first child, since it's a multimaterial
+            this.radius = 40;
+            this.tube = 28.2;
+            this.radialSegments = 600;
+            this.tubularSegments = 12;
+            this.p = 5;
+            this.q = 4;
+            this.heightScale = 4;
+            this.asParticles = true;
+            this.rotate = true;
+
+            this.redraw = function () {
+                // remove the old plane
+                if (knot) scene.remove(knot);
+                // create a new one
+                var geom = new THREE.TorusKnotGeometry(controls.radius, controls.tube, Math.round(controls.radialSegments), Math.round(controls.tubularSegments), Math.round(controls.p), Math.round(controls.q), controls.heightScale);
+
+                if (controls.asParticles) {
+                    knot = createParticleSystem(geom);
+                } else {
+                    knot = createMesh(geom);
+                }
+
+                // add it to the scene.
+                scene.add(knot);
+            };
+
+        }
+
+        var gui = new dat.GUI();
+        gui.add(controls, 'radius', 0, 40).onChange(controls.redraw);
+        gui.add(controls, 'tube', 0, 40).onChange(controls.redraw);
+        gui.add(controls, 'radialSegments', 0, 400).step(1).onChange(controls.redraw);
+        gui.add(controls, 'tubularSegments', 1, 20).step(1).onChange(controls.redraw);
+        gui.add(controls, 'p', 1, 10).step(1).onChange(controls.redraw);
+        gui.add(controls, 'q', 1, 15).step(1).onChange(controls.redraw);
+        gui.add(controls, 'heightScale', 0, 5).onChange(controls.redraw);
+        gui.add(controls, 'asParticles').onChange(controls.redraw);
+        gui.add(controls, 'rotate').onChange(controls.redraw);
+      
+        gui.close();
+
+        controls.redraw();
+
+        render();
+
+        // from THREE.js examples
+        function generateSprite() {
+
+            var canvas = document.createElement('canvas');
+            canvas.width = 16;
+            canvas.height = 16;
+
+            var context = canvas.getContext('2d');
+            var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
+            gradient.addColorStop(0.4, 'rgba(0,0,64,1)');
+            gradient.addColorStop(1, 'rgba(0,0,0,1)');
+
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            var texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+
+        }
+
+        function createParticleSystem(geom) {
+            var material = new THREE.ParticleBasicMaterial({
+                color: 0xffffff,
+                size: 3,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                map: generateSprite()
+            });
+
+            var system = new THREE.ParticleSystem(geom, material);
+            system.sortParticles = true;
+            return system;
+        }
+
+        function createMesh(geom) {
+
+            // assign two materials
+            var meshMaterial = new THREE.MeshNormalMaterial({});
+            meshMaterial.side = THREE.DoubleSide;
+
+            // create a multimaterial
+            var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
+
+            return mesh;
+        }
+
+        function render() {
+            stats.update();
+
+            if (controls.rotate) {
+                knot.rotation.y = step += 0.01;
+            }
+
+            // render using requestAnimationFrame
+            requestAnimationFrame(render);
+            webGLRenderer.render(scene, camera);
+        }
+
+        function initStats() {
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+
+            $("#Stats-output").append(stats.domElement);
+
+            return stats;
+        }
     });
-
-    on();
-    resizeWindow();
-    renderLoop();
-  }
-  init();
-}
