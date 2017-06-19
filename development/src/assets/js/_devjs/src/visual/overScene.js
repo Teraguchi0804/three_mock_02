@@ -1,8 +1,8 @@
 /**
  * fileOverview:
  * Project:
- * File: Scene02
- * Date: 17/06/15
+ * File: overScene
+ * Date: 17/06/19
  * Author: Teraguchi
  */
 
@@ -19,9 +19,9 @@ export default class overScene extends Entry{
     this.scene = null;
     this.camera = null;
     this.step = 0;
-    this.knot = null;
+    this.knot = null; // 結び目
 
-    //
+    //トーラス生成で必要なパラメータ
 		this.radius = 40;
 		this.tube = 28.2;
 		this.radialSegments = 600;
@@ -32,44 +32,27 @@ export default class overScene extends Entry{
 		this.asParticles = true;
 		this.rotate = true;
 
-    this.controls = this._controls.bind(this);
+		this.generateSprite = this._generateSprite.bind(this);
+		this.createParticleSystem = this._createParticleSystem.bind(this);
+		this.createMesh = this._createMesh.bind(this);
+
+
     this.createScene = this._createScene.bind(this);
     this.update = this._update.bind(this);
-
-		// this.controls.redraw();
-		// this.controls();
 
     this.createScene();
 
   }
 
-  _controls(){
-		// this.redraw = function () {
-			// remove the old plane
-			// if (this.knot) this.scene.remove(this.knot);
-			// // create a new one
-			// let geom = new THREE.TorusKnotGeometry(this.controls.radius, this.controls.tube, Math.round(this.controls.radialSegments), Math.round(this.controls.tubularSegments), Math.round(this.controls.p), Math.round(this.controls.q), this.controls.heightScale);
-      //
-			// if (this.controls.asParticles) {
-			// 	this.knot = this.createParticleSystem(geom);
-			// } else {
-			// 	this.knot = this.createMesh(geom);
-			// }
-
-			// add it to the scene.
-			// this.scene.add(this.knot);
-		// }.bind(this);
-  }
-
 	// from THREE.js examples
-	generateSprite() {
+	_generateSprite() {
 
-		var canvas = document.createElement('canvas');
+		const canvas = document.createElement('canvas');
 		canvas.width = 16;
 		canvas.height = 16;
 
-		var context = canvas.getContext('2d');
-		var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+		const context = canvas.getContext('2d');
+		const gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
 		gradient.addColorStop(0, 'rgba(255,255,255,1)');
 		gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
 		gradient.addColorStop(0.4, 'rgba(0,0,64,1)');
@@ -78,14 +61,14 @@ export default class overScene extends Entry{
 		context.fillStyle = gradient;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
-		var texture = new THREE.Texture(canvas);
+		const texture = new THREE.Texture(canvas);
 		texture.needsUpdate = true;
 		return texture;
 
 	}
 
-	createParticleSystem(geom) {
-		var material = new THREE.ParticleBasicMaterial({
+	_createParticleSystem(geom) {
+		const material = new THREE.ParticleBasicMaterial({
 			color: 0xffffff,
 			size: 3,
 			transparent: true,
@@ -93,34 +76,22 @@ export default class overScene extends Entry{
 			map: this.generateSprite()
 		});
 
-		var system = new THREE.ParticleSystem(geom, material);
+		const system = new THREE.ParticleSystem(geom, material);
 		system.sortParticles = true;
 		return system;
 	}
 
-	createMesh(geom) {
+	_createMesh(geom) {
 
 		// assign two materials
-		var meshMaterial = new THREE.MeshNormalMaterial({});
+		const meshMaterial = new THREE.MeshNormalMaterial({});
 		meshMaterial.side = THREE.DoubleSide;
 
 		// create a multimaterial
-		var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
+		const mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
 
 		return mesh;
 	}
-
-	// render() {
-	// 	stats.update();
-	//
-	// 	if (controls.rotate) {
-	// 		knot.rotation.y = step += 0.01;
-	// 	}
-	//
-	// 	// render using requestAnimationFrame
-	// 	requestAnimationFrame(render);
-	// 	webGLRenderer.render(scene, camera);
-	// }
 
 
   /**
@@ -136,15 +107,6 @@ export default class overScene extends Entry{
     this.camera.position.y = 40;
     this.camera.position.z = 50;
 		this.camera.lookAt(new THREE.Vector3(10, 0, 0));
-
-    // this.geometry = new THREE.BoxGeometry(50,50,50);
-    // this.material = new THREE.MeshBasicMaterial(0x888888);
-    //
-    // this.Box = new THREE.Mesh(
-    //     this.geometry,
-    //     this.material
-    // );
-    // this.scene.add(this.Box);
 
     if (this.knot) this.scene.remove(this.knot);
     // create a new one
@@ -169,7 +131,7 @@ export default class overScene extends Entry{
   _update(){
 
 		if (this.rotate) {
-			this.knot.rotation.y = this.step += 0.001;
+			this.knot.rotation.y = this.step += 0.005;
 		}
 
   }
