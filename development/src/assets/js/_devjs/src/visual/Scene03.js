@@ -7,7 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
-import Plane from './Plane';
+import PlaneScene03 from './PlaneScene03';
 
 'use strict';
 
@@ -32,7 +32,7 @@ export default class Scene03 extends Entry{
 		this.update = this._update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
 
-		this.plane = new Plane(); // plane
+		this.plane = new PlaneScene03(); // plane
 
 		this.init(); // 初期化実行
 
@@ -90,7 +90,9 @@ export default class Scene03 extends Entry{
    */
   _update() {
 
+		this.plane.uniforms.time.value += 0.05;
 
+		// window.console.log('03');
   }
 
   /**
