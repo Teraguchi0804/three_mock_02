@@ -37,27 +37,28 @@ export default class overScene extends Entry{
     this.update = this._update.bind(this);
 
 		// this.controls.redraw();
+		// this.controls();
 
     this.createScene();
 
   }
 
   _controls(){
-		this.redraw = function () {
+		// this.redraw = function () {
 			// remove the old plane
-			if (this.knot) this.scene.remove(this.knot);
-			// create a new one
-			let geom = new THREE.TorusKnotGeometry(this.controls.radius, this.controls.tube, Math.round(this.controls.radialSegments), Math.round(this.controls.tubularSegments), Math.round(this.controls.p), Math.round(this.controls.q), this.controls.heightScale);
-
-			if (this.controls.asParticles) {
-				this.knot = this.createParticleSystem(geom);
-			} else {
-				this.knot = this.createMesh(geom);
-			}
+			// if (this.knot) this.scene.remove(this.knot);
+			// // create a new one
+			// let geom = new THREE.TorusKnotGeometry(this.controls.radius, this.controls.tube, Math.round(this.controls.radialSegments), Math.round(this.controls.tubularSegments), Math.round(this.controls.p), Math.round(this.controls.q), this.controls.heightScale);
+      //
+			// if (this.controls.asParticles) {
+			// 	this.knot = this.createParticleSystem(geom);
+			// } else {
+			// 	this.knot = this.createMesh(geom);
+			// }
 
 			// add it to the scene.
-			this.scene.add(this.knot);
-		}.bind(this);
+			// this.scene.add(this.knot);
+		// }.bind(this);
   }
 
 	// from THREE.js examples
@@ -136,15 +137,27 @@ export default class overScene extends Entry{
     this.camera.position.z = 50;
 		this.camera.lookAt(new THREE.Vector3(10, 0, 0));
 
-    this.geometry = new THREE.BoxGeometry(50,50,50);
-    this.material = new THREE.MeshBasicMaterial(0x888888);
+    // this.geometry = new THREE.BoxGeometry(50,50,50);
+    // this.material = new THREE.MeshBasicMaterial(0x888888);
+    //
+    // this.Box = new THREE.Mesh(
+    //     this.geometry,
+    //     this.material
+    // );
+    // this.scene.add(this.Box);
 
-    this.Box = new THREE.Mesh(
-        this.geometry,
-        this.material
-    );
+    if (this.knot) this.scene.remove(this.knot);
+    // create a new one
+    let geom = new THREE.TorusKnotGeometry(this.radius, this.tube, Math.round(this.radialSegments), Math.round(this.tubularSegments), Math.round(this.p), Math.round(this.q), this.heightScale);
 
-    this.scene.add(this.Box);
+    if (this.asParticles) {
+      this.knot = this.createParticleSystem(geom);
+    } else {
+      this.knot = this.createMesh(geom);
+    }
+
+    this.scene.add(this.knot);
+
 
   }
 
@@ -155,15 +168,9 @@ export default class overScene extends Entry{
    */
   _update(){
 
-		if (this.controls.rotate) {
-			this.knot.rotation.y = this.step += 0.01;
+		if (this.rotate) {
+			this.knot.rotation.y = this.step += 0.001;
 		}
-
-    // requestAnimationFrame(this.audioInit.execute());
-
-    // this.timer += 0.1;
-    // this.Box.position.y = 50 * Math.sin(this.timer);
-    // this.Box.position.y = this.elVolumeVal * Math.sin(this.timer);
 
   }
 
