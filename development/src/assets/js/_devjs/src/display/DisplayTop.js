@@ -9,6 +9,7 @@
 import SceneManger from "../visual/SceneManger";
 import Scene01 from "../visual/Scene01";
 import Scene02 from "../visual/Scene02";
+import Scene03 from "../visual/Scene03";
 // import OverScene from "../visual/overScene";
 
 // import WebGLinit from './WebGLinit.js';
@@ -39,10 +40,14 @@ export default class DisplayTop {
 
     gb.in.sceneBoxA = new Scene01();
     gb.in.sceneBoxB = new Scene02();
+    gb.in.sceneBoxC = new Scene03();
+    gb.in.sceneBoxD = new Scene02();
     // gb.in.sceneOver = new OverScene();
 
     gb.in.sceneManger.addScene(gb.in.sceneBoxA);
     gb.in.sceneManger.addScene(gb.in.sceneBoxB);
+    gb.in.sceneManger.addScene(gb.in.sceneBoxC);
+    gb.in.sceneManger.addScene(gb.in.sceneBoxD);
     // gb.in.sceneManger.addScene(gb.in.sceneOver);
 
     gb.in.sceneManger.draw();

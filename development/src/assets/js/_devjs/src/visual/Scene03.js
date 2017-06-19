@@ -7,6 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
+import audio from "./Utils/audio";
 
 'use strict';
 
@@ -31,7 +32,7 @@ export default class Scene03 extends Entry{
 
     this.createScene();
 
-    // this.audioInit = new audio();
+    this.audioInit = new audio();
     //
     // this.aaa = this.audioInit.execute();
     // window.console.log(this.aaa);
@@ -120,7 +121,7 @@ export default class Scene03 extends Entry{
     // requestAnimationFrame(this.audioInit.execute());
 
     this.timer += 0.1;
-    this.Box.position.y = 50 * Math.sin(this.timer);
+    this.Box.position.x = 50 * Math.sin(this.timer);
     // this.Box.position.y = this.elVolumeVal * Math.sin(this.timer);
 
   }

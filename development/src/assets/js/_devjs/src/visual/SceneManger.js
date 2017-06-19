@@ -20,6 +20,7 @@ export default class SceneManger extends Entry{
 		this.NUM = 0; // 現在のシーンの番号
 		this.scenes = []; // シーンを格納する配列
     this.fadeInOutTimer = -1; //
+    this.op = 0;
 
 		this.canvas = null;
     this.renderer = null; // Renderer
@@ -48,6 +49,9 @@ export default class SceneManger extends Entry{
 
 		this.init(); // 初期化処理後、イベント登録
 
+    window.addEventListener('resize', this.onResize, false );
+    document.addEventListener("keydown", this.onKeyDown, true);
+
   }
 
   /**
@@ -55,10 +59,7 @@ export default class SceneManger extends Entry{
    */
   init(){
 
-    window.addEventListener('resize', this.onResize, false );
 
-		document.addEventListener("resize", this.onResize, false );
-		document.addEventListener("keydown", this.onKeyDown, true);
 
     // this._Scene = new OverScene();
     this.overscene.push(new OverScene());
@@ -76,13 +77,13 @@ export default class SceneManger extends Entry{
 
     // Renderer02作成
     this.renderer02 = new THREE.WebGLRenderer({antialias: true,alpha: true});
-    // this.renderer02.setPixelRatio( window.devicePixelRatio );
+    this.renderer02.setPixelRatio( window.devicePixelRatio );
     this.renderer02.setSize( window.innerWidth, window.innerHeight );
     this.renderer02.sortObjects = false;
     this.renderer02.shadowMap.enabled = true;
     this.renderer02.shadowMap.type = THREE.PCFShadowMap;
     this.renderer02.domElement.id = "sub";
-    // this.renderer02.setClearColor( 0x000000, 0 );
+    this.renderer02.setClearColor(0x000000, 0.5);
     this.canvas02 = this.renderer02.domElement;
     document.body.appendChild(this.canvas02);
 
@@ -122,12 +123,14 @@ export default class SceneManger extends Entry{
 	 * @private
 	 */
 	_checkNum(){
-    window.console.log(this.keyname);
-		if(this.NUM <0) {
+    // window.console.log(this.keyname);
+		if(this.NUM < 0) {
+		  window.console.log('aa');
 			this.NUM = this.scenes.length-1;
 		}
 
 		if(this.NUM >= this.scenes.length) {
+      window.console.log('bb');
 			this.NUM = 0;
 		}
   }
@@ -137,15 +140,27 @@ export default class SceneManger extends Entry{
 	 * @private
 	 */
 	_onKeyDown(){
-		document.onkeydown = (e) => {
+		window.onkeydown = (e) => {
 			// console.log(e);
       this.keyname = e.key;
 
+      if(this.keyname == "ArrowRight"){
+        // this.alphaReset();
+        // this.NUM++;
+        this.checkNum();
+      }
+
+      if(this.keyname == "ArrowLeft"){
+        // this.alphaReset();
+        // this.NUM--;
+        this.checkNum();
+
+      }
+
       if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft") {
-        // keyname = event.key;
+        // this.keyname = e.key;
 
         this.fadeInOutTimer = 0;
-        //scenes[0].meshMaterial.color = 0xffffff*Math.random();
       }
 
       if(this.keyname == "ArrowUp") {
@@ -167,7 +182,7 @@ export default class SceneManger extends Entry{
       }
 
       window.console.log('this.overAlpha',this.overAlpha);
-      window.console.log($("#sub"));
+      // window.console.log($("#sub"));
       $("#sub").css({ opacity: this.overAlpha });
 			window.console.log('現在のシーン番号は',this.NUM);
 		}
@@ -181,42 +196,48 @@ export default class SceneManger extends Entry{
     if(this.fadeInOutTimer <= Math.PI*2){
       this.fadeInOutTimer += 0.07;
       //screen.style.opacity = Math.sin(fadeInOutTimer);
-      var op = Math.sin(this.fadeInOutTimer);
+      this.op = Math.sin(this.fadeInOutTimer);
 
       $("#fadeInOut")
           .css({
-            opacity: op
+            opacity: this.op
           });
     } else {
 
       this.fadeInOutTimer = -1;
-      op = 0.0;
+      this.op = 0.0;
     }
 
-    if(op > 0.95 && op <= 1.0)
-    {
+    if(this.op > 0.95 && this.op <= 1.0) {
+      
       switch (this.keyname) {
         case 'ArrowRight':
           // console.log(this.scenes[this.NUM].END);
           //scenes[NUM].endEnabled();
+          //   window.console.log('aaa');
           this.NUM++;
           this.checkNum();
-          this.alphaReset();
-          if(this.scenes.length == this.NUM){
-            this.NUM=0;
-          }
+          // this.alphaReset();
+
+          // window.console.log('this.scenes.length==', this.scenes.length);
+          window.console.log('this.NUM==', this.NUM);
+
+          // if(this.scenes.length == this.NUM){
+          //   this.NUM=0;
+          // }
           break;
 
         case 'ArrowLeft':
           // console.log(this.scenes[this.NUM].END);
-          this.alphaReset();
+
           //scenes[NUM].endEnabled();
           this.NUM--;
           this.checkNum();
+          // this.alphaReset();
 
-          if(this.NUM <0){
-            this.NUM = this.scenes.length-1;
-          }
+          // if(this.NUM <0){
+          //   this.NUM = this.scenes.length-1;
+          // }
           break;
       }
     }
