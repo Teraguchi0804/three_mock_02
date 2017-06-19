@@ -34,6 +34,7 @@ vec2 map(vec3 p) {
     return vec2(min(sdGround(p), sdBuildings(p)), 0.);
 }
 
+//
 void main (void) {
     vec3 rayOrigin = vec3(0, 1.5, 0);
     rayOrigin.x += (sin(t() * .7) + cos(t() * .67)) * 0.07;
