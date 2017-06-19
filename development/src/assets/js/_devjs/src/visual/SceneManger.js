@@ -30,6 +30,8 @@ export default class SceneManger extends Entry{
 
     this.overscene = []; // overscene
 
+
+
     this.overAlpha = 0;
     this.mainOP = 1.0;
 
@@ -59,13 +61,10 @@ export default class SceneManger extends Entry{
    */
   init(){
 
-
-
-    // this._Scene = new OverScene();
     this.overscene.push(new OverScene());
 
 		// Renderer作成
-		this.renderer = new THREE.WebGLRenderer({antialias: true});
+		this.renderer = new THREE.WebGLRenderer({alpha: true});
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.renderer.sortObjects = false;
@@ -123,7 +122,7 @@ export default class SceneManger extends Entry{
 	 * @private
 	 */
 	_checkNum(){
-    // window.console.log(this.keyname);
+
 		if(this.NUM < 0) {
 		  window.console.log('aa');
 			this.NUM = this.scenes.length-1;
@@ -133,6 +132,7 @@ export default class SceneManger extends Entry{
       window.console.log('bb');
 			this.NUM = 0;
 		}
+		
   }
 
 	/**
@@ -145,40 +145,38 @@ export default class SceneManger extends Entry{
       this.keyname = e.key;
 
       if(this.keyname == "ArrowRight"){
-        // this.alphaReset();
-        // this.NUM++;
         this.checkNum();
       }
 
       if(this.keyname == "ArrowLeft"){
-        // this.alphaReset();
-        // this.NUM--;
         this.checkNum();
 
       }
 
       if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft") {
-        // this.keyname = e.key;
 
         this.fadeInOutTimer = 0;
+
       }
 
       if(this.keyname == "ArrowUp") {
-        window.console.log('Up');
+        // window.console.log('Up');
 
         this.overAlpha+=0.05;
         if(this.overAlpha > 1){
           this.overAlpha = 1.0;
         }
+
       }
 
       if(this.keyname == "ArrowDown") {
-        window.console.log('Down');
+        // window.console.log('Down');
 
         this.overAlpha-=0.05;
         if(this.overAlpha < 0){
           this.overAlpha = 0.0;
         }
+
       }
 
       window.console.log('this.overAlpha',this.overAlpha);
@@ -212,15 +210,9 @@ export default class SceneManger extends Entry{
       
       switch (this.keyname) {
         case 'ArrowRight':
-          // console.log(this.scenes[this.NUM].END);
-          //scenes[NUM].endEnabled();
-          //   window.console.log('aaa');
+
           this.NUM++;
           this.checkNum();
-          // this.alphaReset();
-
-          // window.console.log('this.scenes.length==', this.scenes.length);
-          window.console.log('this.NUM==', this.NUM);
 
           // if(this.scenes.length == this.NUM){
           //   this.NUM=0;
@@ -228,12 +220,9 @@ export default class SceneManger extends Entry{
           break;
 
         case 'ArrowLeft':
-          // console.log(this.scenes[this.NUM].END);
 
-          //scenes[NUM].endEnabled();
           this.NUM--;
           this.checkNum();
-          // this.alphaReset();
 
           // if(this.NUM <0){
           //   this.NUM = this.scenes.length-1;
