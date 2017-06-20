@@ -146,10 +146,12 @@ export default class SceneManger extends Entry{
 
       if(this.keyname == "ArrowRight"){
         this.checkNum();
+        this.alphaReset();
       }
 
       if(this.keyname == "ArrowLeft"){
         this.checkNum();
+				this.alphaReset();
 
       }
 
