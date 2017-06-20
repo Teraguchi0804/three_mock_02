@@ -99,8 +99,8 @@ export default class Scene03 extends Entry{
    *　画面リサイズイベント
    */
   _onResize() {
-		// this.canvas.width = document.body.clientWidth;
-    // this.canvas.height = document.body.clientHeight;
+		this.canvas.width = document.body.clientWidth;
+    this.canvas.height = document.body.clientHeight;
 		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
   }

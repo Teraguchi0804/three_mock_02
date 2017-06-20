@@ -44,7 +44,7 @@ void main (void) {
     vec3 rayOrigin = vec3(0, 1.5, 0);
     rayOrigin.x += (sin(t() * .7) + cos(t() * .67)) * 0.07;
     rayOrigin.y += (sin(t() * .81) + cos(t() * .8)) * 0.2;
-    vec3 rayTarget = vec3(0, 2, 9999999.);
+    vec3 rayTarget = vec3(0, 1, 9999999.);
     rayOrigin.z = t();
     vec3 rayDirection = camera(rayOrigin, rayTarget, square(resolution.xy), 2.);
 

@@ -23,7 +23,7 @@ export default class PlaneScene03 extends Entry{
 		this.loadTexture = this._loadTexture.bind(this);
 		this.createMesh = this._createMesh.bind(this);
 		// this.render = this._render.bind(this);
-		// this.resize = this._resize.bind(this);
+		this.resize = this._resize.bind(this);
 
   }
 
@@ -78,8 +78,8 @@ export default class PlaneScene03 extends Entry{
 	 *
 	 * @private
 	 */
-	// _resize(){
-	// 	this.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
-	// }
+	_resize(){
+		this.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+	}
 
 }
