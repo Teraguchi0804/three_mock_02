@@ -1,8 +1,13 @@
+/* 精度修飾子の宣言 */
 precision mediump float;
-uniform float time;
-uniform vec2  mouse;
-uniform vec2  resolution;
+
+/* WebGLで受け渡された変数 */
+uniform float time; // time (1second == 1.0)
+uniform vec2  mouse; // mouse (-1.0 ~ 1.0)
+uniform vec2  resolution; // 解像度 (512.0, 512.0)
+
 const float PI = 3.14159265;
+
 #pragma glslify: square = require('glsl-square-frame')
 #pragma glslify: camera = require('glsl-camera-ray')
 vec2 map(vec3 p);
