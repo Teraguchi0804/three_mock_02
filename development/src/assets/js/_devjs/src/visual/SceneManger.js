@@ -107,7 +107,6 @@ export default class SceneManger extends Entry{
   	// 表示しているシーンごとにカメラのリサイズを走らせる
     this.scenes[this.NUM].camera.aspect = window.innerWidth / window.innerHeight;
     this.scenes[this.NUM].camera.updateProjectionMatrix();
-
     // rendererは全てのシーンで共通
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 

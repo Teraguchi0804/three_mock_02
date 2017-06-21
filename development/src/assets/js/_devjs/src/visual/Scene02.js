@@ -17,6 +17,11 @@ export default class Scene02 extends Entry{
 
     super();
 
+    this.canvas = document.getElementById('main');
+
+    this.width = document.body.clientWidth;
+    this.height = document.body.clientHeight;
+
     this.scene = null;
     this.camera = null;
     this.Box = null;
@@ -27,6 +32,7 @@ export default class Scene02 extends Entry{
 
     // this.audio = this._audio.bind(this);
 
+    this.onResize = this._onResize.bind(this);
     this.createScene = this._createScene.bind(this);
     this.update = this._update.bind(this);
 
@@ -41,6 +47,10 @@ export default class Scene02 extends Entry{
     // window.console.log(this.audioInit);
 
     // this.audioInit(); //audioInit実行
+
+    window.addEventListener('resize', () => {
+      this.onResize();
+    }, false);
 
   }
 
@@ -96,7 +106,7 @@ export default class Scene02 extends Entry{
 
     this.scene = new THREE.Scene(); //シーン作成
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 1.0, 10000);
     this.camera.position.z = 1000;
 
     this.geometry = new THREE.BoxGeometry(50,50,50);
@@ -108,6 +118,17 @@ export default class Scene02 extends Entry{
     );
 
     this.scene.add(this.Box);
+
+
+  }
+
+  /**
+   *　画面リサイズイベント
+   */
+  _onResize() {
+    this.canvas.width = document.body.clientWidth;
+    this.canvas.height = document.body.clientHeight;
+    this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
   }
 

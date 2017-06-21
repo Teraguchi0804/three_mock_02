@@ -141,7 +141,9 @@ export default class Scene01 extends Entry{
     // WebAudio AnalyzerNodeから取得したデータで平面のz座標を動かす
     for (let i = 0; i < this.cube.geometry.vertices.length; i++) {
       let vertex = this.cube.geometry.vertices[i];
-      vertex = waveData * 100;
+      // vertex = waveData * 100;
+      vertex = waveData;
+      window.console.log(vertex);
     }
 
   }
