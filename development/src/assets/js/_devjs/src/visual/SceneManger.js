@@ -7,7 +7,8 @@
  */
 
 import Entry from '../Core/Entry';
-import OverScene from "../visual/overScene";
+// import OverScene from "../visual/overScene";
+import OverScene02 from "../visual/overScene02";
 
 'use strict';
 
@@ -33,7 +34,6 @@ export default class SceneManger extends Entry{
 
 
     this.overAlpha = 0;
-    this.mainOP = 1.0;
 
     this.addScene = this._addScene.bind(this);
 
@@ -61,7 +61,7 @@ export default class SceneManger extends Entry{
    */
   init(){
 
-    this.overscene.push(new OverScene());
+    this.overscene.push(new OverScene02());
 
 		// Renderer作成
 		this.renderer = new THREE.WebGLRenderer({alpha: true});
@@ -75,16 +75,16 @@ export default class SceneManger extends Entry{
 		document.body.appendChild(this.canvas);
 
     // Renderer02作成
-    // this.renderer02 = new THREE.WebGLRenderer({antialias: true,alpha: true});
-    // this.renderer02.setPixelRatio( window.devicePixelRatio );
-    // this.renderer02.setSize( window.innerWidth, window.innerHeight );
-    // this.renderer02.sortObjects = false;
-    // this.renderer02.shadowMap.enabled = true;
-    // this.renderer02.shadowMap.type = THREE.PCFShadowMap;
-    // this.renderer02.domElement.id = "sub";
-    // this.renderer02.setClearColor(0x000000, 0.5);
-    // this.canvas02 = this.renderer02.domElement;
-    // document.body.appendChild(this.canvas02);
+    this.renderer02 = new THREE.WebGLRenderer({antialias: true,alpha: true});
+    this.renderer02.setPixelRatio( window.devicePixelRatio );
+    this.renderer02.setSize( window.innerWidth, window.innerHeight );
+    this.renderer02.sortObjects = false;
+    this.renderer02.shadowMap.enabled = true;
+    this.renderer02.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer02.domElement.id = "sub";
+    this.renderer02.setClearColor(0x000000, 0.5);
+    this.canvas02 = this.renderer02.domElement;
+    document.body.appendChild(this.canvas02);
 
   }
 
@@ -111,9 +111,9 @@ export default class SceneManger extends Entry{
     // rendererは全てのシーンで共通
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // this.overscene[0].camera.aspect = window.innerWidth / window.innerHeight;
-    // this.overscene[0].camera.updateProjectionMatrix();
-    // this.renderer02.setSize(window.innerWidth, window.innerHeight);
+    this.overscene[0].camera.aspect = window.innerWidth / window.innerHeight;
+    this.overscene[0].camera.updateProjectionMatrix();
+    this.renderer02.setSize(window.innerWidth, window.innerHeight);
   }
 
 	/**
@@ -235,7 +235,6 @@ export default class SceneManger extends Entry{
 
   _alphaReset() {
     this.overAlpha = 0.0;
-    this.mainOP = 1.0;
 
     $("#sub").css({opacity: this.overAlpha});
   }
@@ -251,9 +250,9 @@ export default class SceneManger extends Entry{
     
 		this.scenes[this.NUM].update();
 		// this.overscene[this.NUM].update();
-		// this.overscene[0].update();
+		this.overscene[0].update();
 		this.renderer.render(this.scenes[this.NUM].scene, this.scenes[this.NUM].camera);
-		// this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
+		this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
 		requestAnimationFrame(this.draw.bind(this));
 
     if(this.fadeInOutTimer >= 0)
