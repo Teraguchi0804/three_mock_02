@@ -32,7 +32,7 @@ export default class Scene02 extends Entry{
 
     this.createScene();
 
-    this.audioInit = new audio();
+    // this.audioInit = new audio();
     //
     // this.aaa = this.audioInit.execute();
     // window.console.log(this.aaa);
@@ -47,45 +47,45 @@ export default class Scene02 extends Entry{
 
   audioInit(){
 
-    let ctx, analyser, frequencies, getByteFrequencyDataAverage, execute;
-
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    ctx = new AudioContext();
-
-    analyser = ctx.createAnalyser();
-    frequencies = new Uint8Array(analyser.frequencyBinCount);
-
-    getByteFrequencyDataAverage = function() {
-      analyser.getByteFrequencyData(frequencies);
-      return frequencies.reduce(function(previous, current) {
-            return previous + current;
-          }) / analyser.frequencyBinCount;
-    };
-
-    navigator.mediaDevices.getUserMedia({audio: true})
-        .then((stream) => {
-          window.hackForMozzila = stream;
-          ctx.createMediaStreamSource(stream)
-          // AnalyserNodeに接続
-              .connect(analyser);
-        })
-        .catch((err) => {
-          window.console.log(err.message);
-        });
-
-    // 音量を表示する要素
-    this.elVolume = document.getElementById('volume');
-
-    // 可能な限り高いフレームレートで音量を取得し、表示を更新する
-    execute = function() {
-      this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
-      this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
-
-      requestAnimationFrame(execute);
-    }.bind(this);
-
+    // let ctx, analyser, frequencies, getByteFrequencyDataAverage, execute;
     //
-    execute();
+    // window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    // ctx = new AudioContext();
+    //
+    // analyser = ctx.createAnalyser();
+    // frequencies = new Uint8Array(analyser.frequencyBinCount);
+    //
+    // getByteFrequencyDataAverage = function() {
+    //   analyser.getByteFrequencyData(frequencies);
+    //   return frequencies.reduce(function(previous, current) {
+    //         return previous + current;
+    //       }) / analyser.frequencyBinCount;
+    // };
+    //
+    // navigator.mediaDevices.getUserMedia({audio: true})
+    //     .then((stream) => {
+    //       window.hackForMozzila = stream;
+    //       ctx.createMediaStreamSource(stream)
+    //       // AnalyserNodeに接続
+    //           .connect(analyser);
+    //     })
+    //     .catch((err) => {
+    //       window.console.log(err.message);
+    //     });
+    //
+    // // 音量を表示する要素
+    // this.elVolume = document.getElementById('volume');
+    //
+    // // 可能な限り高いフレームレートで音量を取得し、表示を更新する
+    // execute = function() {
+    //   this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
+    //   this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
+    //
+    //   requestAnimationFrame(execute);
+    // }.bind(this);
+    //
+    // //
+    // execute();
   }
 
   /**
