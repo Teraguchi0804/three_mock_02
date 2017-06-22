@@ -65,6 +65,7 @@ export default class SceneManger extends Entry{
 		this.renderer = new THREE.WebGLRenderer({alpha: true});
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setClearColor(new THREE.Color(0x000000, 0.0));
 		this.renderer.sortObjects = false;
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFShadowMap;
