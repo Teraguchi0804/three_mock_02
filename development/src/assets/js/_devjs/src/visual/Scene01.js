@@ -23,9 +23,8 @@ export default class Scene01 extends Entry{
     this.camera = null;
     // this.Box = null;
     this.cube = null;
-    this.timer = 0;
 
-    this.BoxX = 10;
+    this.timer = 0;
 
     this.elVolume = null;
     this.elVolumeVal = null;
@@ -107,8 +106,7 @@ export default class Scene01 extends Entry{
       for (let y = 1; y <= num; y++) {
         for (let z = 1; z <= num; z ++) {
           this.cube = new THREE.Mesh(
-              // new THREE.BoxGeometry(10, 10, 10),
-              new THREE.BoxGeometry(this.BoxX, 10, 10),
+              new THREE.BoxGeometry(10, 10, 10),
               new THREE.MeshLambertMaterial(0xffffff)
           );
           this.cube.position.set(
@@ -127,24 +125,18 @@ export default class Scene01 extends Entry{
     pointLight.position.set(200, 200, 200);
     this.scene.add(pointLight);
 
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 1000);
     this.camera.position.z = 200;
 
   }
 
-  // 平面に波形の揺らぎを付加
+
   _cube_update(waveData)
   {
-    // updateのフラグを立てる
-    this.cube.geometry.verticesNeedUpdate = true;
 
-    // WebAudio AnalyzerNodeから取得したデータで平面のz座標を動かす
-    for (let i = 0; i < this.cube.geometry.vertices.length; i++) {
-      let vertex = this.cube.geometry.vertices[i];
-      // vertex = waveData * 100;
-      vertex = waveData;
-      window.console.log(vertex);
-    }
+    this.group.scale.x = 1 + waveData/50;
+    this.group.scale.y = 1 + waveData/50;
+    this.group.scale.z = 1 + waveData/50;
 
   }
 
@@ -160,9 +152,7 @@ export default class Scene01 extends Entry{
         obj.rotation.z += 0.01;
       }
     }.bind(this));
-    // stats.update();
-    // renderer.render(scene, camera);
-    // requestAnimationFrame(render);
+
   }
 
 
@@ -173,11 +163,8 @@ export default class Scene01 extends Entry{
   _update(){
 
     this.cube_update(this.elVolumeVal);
-    // window.console.log(this.elVolumeVal);
-    // this.BoxX = this.elVolumeVal;
-    // window.console.log(this.cube.geometry.vertices);
-    // window.console.log(this.elVolumeVal);
-    // window.console.log('update01');
+
+
 
     this.render();
 

@@ -27,8 +27,6 @@ export default class SceneManger extends Entry{
     this.renderer = null; // Renderer
     this.renderer02 = null; // Renderer02
 
-    // this.$subWrap = $('#subWrap');
-
     this.overscene = []; // overscene
 
 
@@ -75,7 +73,7 @@ export default class SceneManger extends Entry{
 		document.body.appendChild(this.canvas);
 
     // Renderer02作成
-    this.renderer02 = new THREE.WebGLRenderer({antialias: true,alpha: true});
+    this.renderer02 = new THREE.WebGLRenderer({antialias: true, alpha: true});
     this.renderer02.setPixelRatio( window.devicePixelRatio );
     this.renderer02.setSize( window.innerWidth, window.innerHeight );
     this.renderer02.sortObjects = false;
