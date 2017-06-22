@@ -22,6 +22,9 @@ export default class Scene02 extends Entry{
     this.step = 0;
     this.knot = null; // 結び目
 
+    this.elVolume = null;
+    this.elVolumeVal = null;
+
     //トーラス生成で必要なパラメータ
     this.radius = 20;
     this.tube = 28.2;
@@ -33,9 +36,17 @@ export default class Scene02 extends Entry{
     this.asParticles = true;
     this.rotate = true;
 
+    this.perMat = null;
+
+    this.canvas = null;
+
+    this.timer = 0;
+
     this.generateSprite = this._generateSprite.bind(this);
     this.createParticleSystem = this._createParticleSystem.bind(this);
     this.createMesh = this._createMesh.bind(this);
+    
+    this.circle_update = this._circle_update.bind(this);
 
 
     this.createScene = this._createScene.bind(this);
@@ -43,87 +54,87 @@ export default class Scene02 extends Entry{
 
     this.createScene();
 
-    window.console.log(this.camera.position.x);
+    this.audioInit();
 
   }
 
 
   audioInit(){
 
-    // let ctx, analyser, frequencies, getByteFrequencyDataAverage, execute;
+    let ctx, analyser, frequencies, getByteFrequencyDataAverage, execute;
+
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    ctx = new AudioContext();
+
+    analyser = ctx.createAnalyser();
+    frequencies = new Uint8Array(analyser.frequencyBinCount);
+
+    getByteFrequencyDataAverage = function() {
+      analyser.getByteFrequencyData(frequencies);
+      return frequencies.reduce(function(previous, current) {
+            return previous + current;
+          }) / analyser.frequencyBinCount;
+    };
+
+    navigator.mediaDevices.getUserMedia({audio: true})
+        .then((stream) => {
+          window.hackForMozzila = stream;
+          ctx.createMediaStreamSource(stream)
+          // AnalyserNodeに接続
+              .connect(analyser);
+        })
+        .catch((err) => {
+          window.console.log(err.message);
+        });
+
+    // 音量を表示する要素
+    this.elVolume = document.getElementById('volume');
+
+    // 可能な限り高いフレームレートで音量を取得し、表示を更新する
+    execute = function() {
+      this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
+      this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
+
+      requestAnimationFrame(execute);
+    }.bind(this);
+
     //
-    // window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    // ctx = new AudioContext();
-    //
-    // analyser = ctx.createAnalyser();
-    // frequencies = new Uint8Array(analyser.frequencyBinCount);
-    //
-    // getByteFrequencyDataAverage = function() {
-    //   analyser.getByteFrequencyData(frequencies);
-    //   return frequencies.reduce(function(previous, current) {
-    //         return previous + current;
-    //       }) / analyser.frequencyBinCount;
-    // };
-    //
-    // navigator.mediaDevices.getUserMedia({audio: true})
-    //     .then((stream) => {
-    //       window.hackForMozzila = stream;
-    //       ctx.createMediaStreamSource(stream)
-    //       // AnalyserNodeに接続
-    //           .connect(analyser);
-    //     })
-    //     .catch((err) => {
-    //       window.console.log(err.message);
-    //     });
-    //
-    // // 音量を表示する要素
-    // this.elVolume = document.getElementById('volume');
-    //
-    // // 可能な限り高いフレームレートで音量を取得し、表示を更新する
-    // execute = function() {
-    //   this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
-    //   this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
-    //
-    //   requestAnimationFrame(execute);
-    // }.bind(this);
-    //
-    // //
-    // execute();
+    execute();
   }
 
   // from THREE.js examples
   _generateSprite() {
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 16;
-    canvas.height = 16;
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = 16;
+    this.canvas.height = 16;
 
-    const context = canvas.getContext('2d');
-    const gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+    const context = this.canvas.getContext('2d');
+    const gradient = context.createRadialGradient(this.canvas.width / 2, this.canvas.height / 2, 0, this.canvas.width / 2, this.canvas.height / 2, this.canvas.width / 2);
     gradient.addColorStop(0, 'rgba(255,255,255,1)');
     gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
     gradient.addColorStop(0.4, 'rgba(0,0,64,1)');
     gradient.addColorStop(1, 'rgba(0,0,0,1)');
 
     context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const texture = new THREE.Texture(canvas);
+    const texture = new THREE.Texture(this.canvas);
     texture.needsUpdate = true;
     return texture;
 
   }
 
   _createParticleSystem(geom) {
-    const material = new THREE.ParticleBasicMaterial({
+    this.perMat = new THREE.ParticleBasicMaterial({
       color: 0xffffff,
-      size: 3,
+      size: 2,
       transparent: true,
       blending: THREE.AdditiveBlending,
       map: this.generateSprite()
     });
 
-    const system = new THREE.ParticleSystem(geom, material);
+    const system = new THREE.ParticleSystem(geom, this.perMat);
     system.sortParticles = true;
     return system;
   }
@@ -179,24 +190,33 @@ export default class Scene02 extends Entry{
 
   }
 
+  _circle_update(waveData)
+  {
+
+
+
+  }
+
 
   /**
    * update関数
    * @private
    */
   _update(){
-    // this.timer += 0.01;
-    // let rad = 600 + Math.sin(this.timer) * 200;
-    // this.camera.position.x = Math.sin(this.timer * 0.4) * Math.cos(this.timer * 0.3) * rad;
-    // this.camera.position.y = Math.cos(this.timer * 0.4) * rad;
-    // this.camera.position.z = Math.sin(this.timer * 0.4) * Math.sin(this.timer * 0.3) * rad;
-    // this.camera.lookAt(new THREE.Vector3(0, 0, 100 * Math.cos(this.timer * 0.005)));
-    // let time = performance.now() * 0.0005;
-    // this.timer += 0.01;
-    // let rad = 600 + Math.sin(this.timer) * 200;
+
+    // this.circle_update();
+
     if (this.rotate) {
-      this.knot.rotation.y = this.step += 0.005;
-      // this.camera.position.x = Math.sin(this.timer * 0.4) * Math.cos(this.timer * 0.3) * rad;
+      this.knot.rotation.x = this.step += 0.001;
+      this.knot.rotation.y = this.step += 0.001;
+      this.knot.rotation.z = this.step += 0.001;
+
+      this.timer += 0.01;
+      let rad = 10 + Math.sin(this.timer) * 10;
+      this.camera.position.x = Math.sin(this.timer * 0.4) * Math.cos(this.timer * 0.3) * rad;
+      this.camera.position.y = Math.cos(this.timer * 0.4) * rad;
+      this.camera.position.z = Math.sin(this.timer * 0.4) * Math.sin(this.timer * 0.3) * rad;
+      this.camera.lookAt(new THREE.Vector3(0, 0, 100 * Math.cos(this.timer * 0.005)));
 
     }
 

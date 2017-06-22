@@ -164,8 +164,6 @@ export default class Scene01 extends Entry{
 
     this.cube_update(this.elVolumeVal);
 
-
-
     this.render();
 
   }
