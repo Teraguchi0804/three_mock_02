@@ -79,7 +79,7 @@ export default class Scene01 extends Entry{
 
     //可能な限り高いフレームレートで音量を取得し、表示を更新する
     execute = function() {
-      this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
+      // this.elVolume.innerHTML = Math.floor(getByteFrequencyDataAverage());
       this.elVolumeVal = Math.floor(getByteFrequencyDataAverage());
 
       requestAnimationFrame(execute);

@@ -140,13 +140,13 @@ export default class SceneManger extends Entry{
       this.keyname = e.key;
 
       if(this.keyname == "ArrowRight"){
-        this.alphaReset();
+        // this.alphaReset();
         this.NUM++;
         this.checkNum();
       }
 
       if(this.keyname == "ArrowLeft"){
-        this.alphaReset();
+        // this.alphaReset();
         this.NUM--;
         this.checkNum();
       }
@@ -187,19 +187,19 @@ export default class SceneManger extends Entry{
    * @private
    */
 	_fadeInOut(){
+
     if(this.fadeInOutTimer <= Math.PI*2){
+
       this.fadeInOutTimer += 0.07;
-      //screen.style.opacity = Math.sin(fadeInOutTimer);
       this.op = Math.sin(this.fadeInOutTimer);
 
-      $("#fadeInOut")
-          .css({
-            opacity: this.op
-          });
+      $("#fadeInOut").css({ opacity: this.op });
+
     } else {
 
       this.fadeInOutTimer = -1;
       this.op = 0.0;
+      
     }
 
     if(this.op > 0.95 && this.op <= 1.0) {
@@ -207,22 +207,15 @@ export default class SceneManger extends Entry{
         case 'ArrowRight':
 
           // this.NUM++;
-          this.checkNum();
+          // this.checkNum();
           this.alphaReset();
-          if(this.scenes.length == this.NUM){
-            this.NUM=0;
-          }
           break;
 
         case 'ArrowLeft':
 
           // this.NUM--;
-          this.checkNum();
+          // this.checkNum();
           this.alphaReset();
-
-          if(this.NUM <0){
-            this.NUM = this.scenes.length-1;
-          }
           break;
       }
     }
@@ -241,7 +234,7 @@ export default class SceneManger extends Entry{
 	 */
 	_draw() {
     
-    // window.console.log(this.overscene[0]);
+    // window.console.log(this.fadeInOutTimer);
     
 		this.scenes[this.NUM].update();
 		// this.overscene[this.NUM].update();
