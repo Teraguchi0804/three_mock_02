@@ -121,12 +121,10 @@ export default class SceneManger extends Entry{
 	_checkNum(){
 
 		if(this.NUM < 0) {
-		  window.console.log('aa');
 			this.NUM = this.scenes.length-1;
 		}
 
 		if(this.NUM >= this.scenes.length) {
-      window.console.log('bb');
 			this.NUM = 0;
 		}
 		
@@ -142,14 +140,15 @@ export default class SceneManger extends Entry{
       this.keyname = e.key;
 
       if(this.keyname == "ArrowRight"){
-        this.checkNum();
         this.alphaReset();
+        this.NUM++;
+        this.checkNum();
       }
 
       if(this.keyname == "ArrowLeft"){
+        this.alphaReset();
+        this.NUM--;
         this.checkNum();
-				this.alphaReset();
-
       }
 
       if(this.keyname == "ArrowRight" || this.keyname == "ArrowLeft") {
@@ -178,8 +177,6 @@ export default class SceneManger extends Entry{
 
       }
 
-      window.console.log('this.overAlpha',this.overAlpha);
-      // window.console.log($("#sub"));
       $("#sub").css({ opacity: this.overAlpha });
 			window.console.log('現在のシーン番号は',this.NUM);
 		}
@@ -206,26 +203,26 @@ export default class SceneManger extends Entry{
     }
 
     if(this.op > 0.95 && this.op <= 1.0) {
-      
       switch (this.keyname) {
         case 'ArrowRight':
 
-          this.NUM++;
+          // this.NUM++;
           this.checkNum();
-
-          // if(this.scenes.length == this.NUM){
-          //   this.NUM=0;
-          // }
+          this.alphaReset();
+          if(this.scenes.length == this.NUM){
+            this.NUM=0;
+          }
           break;
 
         case 'ArrowLeft':
 
-          this.NUM--;
+          // this.NUM--;
           this.checkNum();
+          this.alphaReset();
 
-          // if(this.NUM <0){
-          //   this.NUM = this.scenes.length-1;
-          // }
+          if(this.NUM <0){
+            this.NUM = this.scenes.length-1;
+          }
           break;
       }
     }
@@ -253,8 +250,7 @@ export default class SceneManger extends Entry{
 		this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
 		requestAnimationFrame(this.draw.bind(this));
 
-    if(this.fadeInOutTimer >= 0)
-    {
+    if(this.fadeInOutTimer >= 0) {
       this.fadeInOut();
     }
 

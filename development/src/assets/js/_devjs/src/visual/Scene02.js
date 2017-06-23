@@ -186,8 +186,6 @@ export default class Scene02 extends Entry{
   _onResize() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    // this.plane.mesh.material.uniforms.resolution.value.set(this.canvas.width, this.canvas.height);
-
   }
 
   _circle_update(waveData)

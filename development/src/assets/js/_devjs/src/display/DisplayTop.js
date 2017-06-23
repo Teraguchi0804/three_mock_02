@@ -2,7 +2,7 @@
  * fileOverview:
  * Project:
  * File: Display
- * Date:
+ * Date: 17/6/23
  * Author: Teraguchi
  */
 
@@ -28,9 +28,6 @@ export default class DisplayTop {
   }
 
   setup() {
-
-    // アニメーションループスタート
-    // gb.in.up.loop();
     
   }
 
@@ -41,26 +38,16 @@ export default class DisplayTop {
     gb.in.sceneBoxA = new Scene01();
     gb.in.sceneBoxB = new Scene02();
     gb.in.sceneBoxC = new Scene03();
-    gb.in.sceneBoxD = new Scene02();
-    // gb.in.sceneOver = new OverScene();
 
     gb.in.sceneManger.addScene(gb.in.sceneBoxA);
     gb.in.sceneManger.addScene(gb.in.sceneBoxB);
     gb.in.sceneManger.addScene(gb.in.sceneBoxC);
-    gb.in.sceneManger.addScene(gb.in.sceneBoxD);
-    // gb.in.sceneManger.addScene(gb.in.sceneOver);
 
     gb.in.sceneManger.draw();
-
-    // gb.in.canvas = new Canvas();
-    // gb.in.canvas.init();
-
 
   }
 
   static run() {
-
-		// window.console.log('static_Run');
 
   }
 
