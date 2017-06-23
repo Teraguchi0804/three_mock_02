@@ -7,7 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
-import audio from "./Utils/audio";
+// import audio from "./Utils/audio";
 
 'use strict';
 
@@ -159,7 +159,7 @@ export default class Scene02 extends Entry{
 
     this.scene = new THREE.Scene(); //シーン作成
 
-    this.camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 1, 5000);
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 1, 5000);
     this.camera.position.x = -30;
     this.camera.position.y = 40;
     this.camera.position.z = 50;
@@ -191,7 +191,9 @@ export default class Scene02 extends Entry{
   _circle_update(waveData)
   {
 
-
+    this.knot.scale.x = 1 + waveData/30;
+    this.knot.scale.y = 1 + waveData/30;
+    this.knot.scale.z = 1 + waveData/30;
 
   }
 
@@ -202,7 +204,7 @@ export default class Scene02 extends Entry{
    */
   _update(){
 
-    // this.circle_update();
+    this.circle_update(this.elVolumeVal);
 
     if (this.rotate) {
       this.knot.rotation.x = this.step += 0.001;
