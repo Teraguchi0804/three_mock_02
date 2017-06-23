@@ -21,8 +21,10 @@ export default class Scene01 extends Entry{
 
     this.scene = null;
     this.camera = null;
-    // this.Box = null;
     this.cube = null;
+
+    this.loader = new THREE.TextureLoader();
+    this.mapTexture = this.loader.load( './../../../assets/resource/img/stone.jpg');
 
     this.timer = 0;
 
@@ -107,7 +109,15 @@ export default class Scene01 extends Entry{
         for (let z = 1; z <= num; z ++) {
           this.cube = new THREE.Mesh(
               new THREE.BoxGeometry(10, 10, 10),
-              new THREE.MeshLambertMaterial(0xffffff)
+              new THREE.MeshLambertMaterial({
+                color: 0xffffff,
+                map: this.mapTexture,
+                bumpMap: this.mapTexture,
+                bumpScale: 0.05,
+                specular: 0xcccccc,
+                shininess:50,
+                ambient: 0xffffff
+              })
           );
           this.cube.position.set(
               (x - num / 2) * step,
@@ -134,9 +144,9 @@ export default class Scene01 extends Entry{
   _cube_update(waveData)
   {
 
-    this.group.scale.x = 1 + waveData/50;
-    this.group.scale.y = 1 + waveData/50;
-    this.group.scale.z = 1 + waveData/50;
+    this.group.scale.x = 1 + waveData/200;
+    this.group.scale.y = 1 + waveData/200;
+    this.group.scale.z = 1 + waveData/200;
 
   }
 
