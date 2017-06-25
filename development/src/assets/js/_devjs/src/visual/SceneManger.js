@@ -109,9 +109,9 @@ export default class SceneManger extends Entry{
     // rendererは全てのシーンで共通
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    this.overscene[0].camera.aspect = window.innerWidth / window.innerHeight;
-    this.overscene[0].camera.updateProjectionMatrix();
-    this.renderer02.setSize(window.innerWidth, window.innerHeight);
+    // this.overscene[0].camera.aspect = window.innerWidth / window.innerHeight;
+    // this.overscene[0].camera.updateProjectionMatrix();
+    // this.renderer02.setSize(window.innerWidth, window.innerHeight);
   }
 
 	/**
@@ -238,9 +238,9 @@ export default class SceneManger extends Entry{
     
 		this.scenes[this.NUM].update();
 		// this.overscene[this.NUM].update();
-		this.overscene[0].update();
+		// this.overscene[0].update();
 		this.renderer.render(this.scenes[this.NUM].scene, this.scenes[this.NUM].camera);
-		this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
+		// this.renderer02.render(this.overscene[0].scene, this.overscene[0].camera);
 		requestAnimationFrame(this.draw.bind(this));
 
     if(this.fadeInOutTimer >= 0) {
