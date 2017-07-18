@@ -44,7 +44,7 @@ export default class overScene extends Entry{
 
   }
 
-	// from THREE.js examples
+
 	_generateSprite() {
 
 		const canvas = document.createElement('canvas');
